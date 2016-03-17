@@ -195,3 +195,68 @@ nav a, nav a:visited {
 nav a.selected, nav a:hover {
   color: #f2b632;
 }
+
+
+/**********************************************
+ LOGIN AND REGISTER
+**********************************************/
+.container {
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+  padding-top: 15em;
+}
+
+.login {
+  width: 450px;
+}
+
+.input-txt {
+  width: 100%;
+  padding: 20px 10px;
+  border: none;
+  font-size: 1em;
+  color: #4478a0;
+  text-transform: uppercase;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: 1.5px dotted #252839;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: #4478a0 0.5s ease-in-out;
+  -o-transition: #4478a0 0.5s ease-in-out;
+  -webkit-transition: #4478a0 0.5s ease-in-out;
+  transition: #4478a0 0.5s ease-in-out;
+}
+.input-txt:-moz-placeholder {
+  color: #677077;
+}
+.input-txt:-ms-input-placeholder {
+  color: #677077;
+}
+.input-txt::-webkit-input-placeholder {
+  color: #677077;
+}
+
+.login-footer {
+  margin: 10px 0;
+  overflow: hidden;
+  float: left;
+  width: 100%;
+}
+
+.register-login-link {
+  color: #4478a0
+}
+.btn {
+  padding: 15px 30px;
+  border: none;
+  background: white;
+  color: #4478a0;
+}
+
+.btn--right {
+  float: right;
+}
+

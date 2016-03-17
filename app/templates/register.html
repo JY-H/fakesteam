@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+   <div class="login">
+      <form method="post">
+        <input type="text" name="user" placeholder="Your Username" required="required" class="input-txt" />
+          <input type="text" name="user-name" placeholder="Your Name" required="required" class="input-txt" />
+          <input type="password" name="password" placeholder="Your Password" required="required" class="input-txt" />
+          <input type="password" name="confirm_password" placeholder="Confirm Password" class="input-txt" /> <span id='message'></span>
+          <div class="login-footer">
+             <a href="/login/" class="register-login-link">
+              <span>ಠ╭╮ಠ</span>
+              I already have an account
+            </a>
+            <button type="submit" class="btn btn--right">Register  </button>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}

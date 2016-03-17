@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>FAKESTEAM </title>
-  <link rel="stylesheet" href="static/css/normalize.css">
+  <link rel="stylesheet" href="../static/css/normalize.css">
   <link href='https://fonts.googleapis.com/css?family=Changa+One|Open+Sans:400,400italic,700,700italic,800' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="static/css/main.css">
-  <link rel="stylesheet" href="static/css/responsive.css">
+  <link rel="stylesheet" href="../static/css/main.css">
+  <link rel="stylesheet" href="../static/css/responsive.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -18,7 +18,7 @@
         {% if user %}
         <h2>Welcome, <b>{{user.name}}</b></h2>
         {% else %}
-        <a href="/login.html"><h2><b>LOGIN</b></h2></a>
+        <a href="/login/"><h2><b>LOGIN</b></h2></a>
         {% endif %}
     </div>
 
@@ -35,8 +35,8 @@
   {% block content %}{% endblock %}
 
     <footer>
-      <img src="static/img/twitter-wrap.png" alt="twitter logo" class="social-icon">
-      <img src="static/img/facebook-wrap.png" alt="facebook logo" class="social-icon">
+      <img src="../static/img/twitter-wrap.png" alt="twitter logo" class="social-icon">
+      <img src="../static/img/facebook-wrap.png" alt="facebook logo" class="social-icon">
       <p>&copy; 2016 FAKESTEAM. All rights reserved. </p>
     </footer>
   </div>
