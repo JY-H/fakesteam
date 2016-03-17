@@ -13,10 +13,14 @@
 <body>
   <header>
 
-    <a href="index.html" id="header">
-      <h1>FAKESTEAM </h1>
-        <h2><br></h2>
-       </a>
+    <div id="header">
+      <a href="/"> <h1>FAKESTEAM </h1></a>
+        {% if user %}
+        <h2>Welcome, <b>{{user.name}}</b></h2>
+        {% else %}
+        <a href="/login.html"><h2><b>LOGIN</b></h2></a>
+        {% endif %}
+    </div>
 
     <nav>
       <ul>
