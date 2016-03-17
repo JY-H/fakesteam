@@ -3,14 +3,14 @@
   <div id="wrapper">
     <!-- gallery section -->
     <section>
+      {% for game in games %}
       <ul id="portfolio">
-        {% for game in games %}
         <li>
             <img src="{{game.url}}" alt="">
-            <p>{{game.name}}</p>
+            <p>{{game.title}}</p>
           </a>
         </li>
-        {% endfor %}
       </ul>
+        {% endfor %}
     </section>
 {% endblock %}
