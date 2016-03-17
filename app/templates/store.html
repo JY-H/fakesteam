@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="wrapper">
+    <!-- gallery section -->
+    <section>
+      <div class="dropdown">
+        <button class="dropbtn">OS</button>
+        <div class="dropdown-content">
+          <a href="#">Linux</a>
+          <a href="#">Mac</a>
+          <a href="#">Windows</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Gameplay</button>
+        <div class="dropdown-content">
+          <a href="#">Single Player</a>
+          <a href="#">MMO</a>
+          <a href="#">..etc..</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">Sort by...</button>
+        <div class="dropdown-content">
+          <a href="#">Alphabetical</a>
+          <a href="#">Price (Low - High)</a>
+          <a href="#">Rating</a>
+        </div>
+      </div>
+
+      {% for game in games %}
+      <ul id="portfolio">
+        <li>
+            <img src="{{game.url}}" alt="">
+            <p>{{game.title}}</p>
+          </a>
+        </li>
+      </ul>
+        {% endfor %}
+    </section>
+{% endblock %}

@@ -13,3 +13,12 @@ SELECT gameid, title, price FROM Games WHERE gameid IN (SELECT gameid FROM Evalu
 # Gamers/Library can only see what the Gamer owns
 SELECT gameid, title, genre, gameplay FROM Games, Library_Owned, Contains WHERE Games.gameid = Library_Owned.gameid
 AND Library_Owned.libraryid = Contains.libraryid AND gameid IN (SELECT gameid FROM Evaluate);
+
+# Developer submits game
+INSERT INTO Games (gameid, title, description, genre, gameplay, price) VALUES (________________);
+
+# Admin evaluates game
+INSERT INTO Evaluate (uid, gameid) VALUES (_______);
+
+# Gamer rates Game
+INSERT INTO Review_Rated(uid, gameid, posted_time, stars, commentary) VALUES (___);
