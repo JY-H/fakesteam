@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <div id="wrapper">
+    <!-- gallery section -->
+    <section>
+      <ul id="portfolio">
+        {% for game in games %}
+        <li>
+            <img src="{{game.url}}" alt="">
+            <p>{{game.name}}</p>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+{% endblock %}
