@@ -177,15 +177,15 @@ h1, h2 {
   color: #ffffff;
 }
 
-/* dark header and black shade nav bar */
+/* dark header and orange shade nav bar */
 header {
   background-color: #252839;
-  border-color: #ffffff;
+  border-color: #677077;
 }
 
 /* nav controls */
 nav {
-  background-color: #ffffff;
+  background-color: #677077;
 }
 
 nav a, nav a:visited {
