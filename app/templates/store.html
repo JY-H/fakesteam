@@ -1,33 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-  <div id="wrapper">
-    <!-- gallery section -->
+    <div id="wrapper">
+    <!-- Filter/Sort -->
     <section>
-      <div class="dropdown">
-        <button class="dropbtn">OS</button>
-        <div class="dropdown-content">
-          <a href="#">Linux</a>
-          <a href="#">Mac</a>
-          <a href="#">Windows</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn">Gameplay</button>
-        <div class="dropdown-content">
-          <a href="#">Single Player</a>
-          <a href="#">MMO</a>
-          <a href="#">..etc..</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <button class="dropbtn">Sort by...</button>
-        <div class="dropdown-content">
-          <a href="#">Alphabetical</a>
-          <a href="#">Price (Low - High)</a>
-          <a href="#">Rating</a>
-        </div>
-      </div>
+      <select>
+        <option value="">Operating System</option>
+        <option value="Mac">Mac</option>
+      </select>
+      <select>
+        <option value="">Gameplay</option>
+        <option value="multiplayer">Multiplayer</option>
+      </select>
+      <select>
+        <option value="">Genre</option>
+        <option value="fps">First Person Shooter</option>
+      </select>
+      <select>
+        <option value="">Sort by...</option>
+        <option value="title DESC">Alphabetical</option>
+      </select>
+    </section>
 
+    <section>
       {% for game in games %}
       <ul id="portfolio">
         <li>
@@ -36,6 +30,6 @@
           </a>
         </li>
       </ul>
-        {% endfor %}
+      {% endfor %}
     </section>
 {% endblock %}
