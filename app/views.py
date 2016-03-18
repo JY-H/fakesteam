@@ -89,6 +89,12 @@ def submit():
 
     return render_template('submit.html', name=user, permissions=permissions)
 
+@app.route('/rate/', methods=['GET', 'POST'])
+def rate():
+    uid, user, permissions = get_user_info()
+
+    return render_template('rate.html', name=user, permissions=permissions)
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
