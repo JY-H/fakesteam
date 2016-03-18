@@ -1,6 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
   <div id="wrapper">
+    <section class="filters">
+        <div class="select-style">
+          <select>
+            <option value="all-os">All</option>
+            <option value="mac">Mac</option>
+            <option value="windows">Windows</option>
+            <option value="linux">Linux</option>
+          </select>
+        </div>
+        <div class="select-style">
+          <select>
+            <option value="all-gameplay">All</option>
+            <option value="single">Single-Player</option>
+            <option value="multi">Multi-Player</option>
+            <option value="both">Both</option>
+          </select>
+        </div>
+        <div class="select-style">
+          <select>
+            <option value="all-genre">All</option>
+            <option value="moba">MOBA</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="fps">FPS</option>
+            <option value="survival">Survival</option>
+            <option value="strategy">Strategy</option>
+            <option value="rpg">RPG</option>
+            <option value="sports">Sports</option>
+            <option value="simulation">Simulation</option>
+            <option value="indie">Indie</option>
+          </select>
+        </div>
+    </section>
     <!-- gallery section -->
     <section>
       {% for game in games %}
