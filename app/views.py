@@ -60,27 +60,16 @@ def index():
         if unicode(gameid) not in excluded:
             filtered_games.append(games[i])
 
-    user = None
-    if session.has_key('name'):
-        user = session['name']
-
-    permissions = None
-    if session.has_key('permissions'):
-        permissions = session['permissions']
+    uid, user, permissions = get_user_info()
 
     return render_template('index.html', games=filtered_games, name=user, permissions=permissions)
 
 @app.route('/library/')
 def library():
-    user = None
-    permissions = None
-    uid = None
     owned_games = []
-    if session.has_key('uid'):
-        uid = session['uid']
-        user = session['name']
-        permissions = session['permissions']
+    uid, user, permissions = get_user_info()
 
+    if uid:
         # get player owned games:
         cmd = "SELECT contains.gameid, games.title, games.url FROM library_owned, contains, games WHERE library_owned.uid =%s AND library_owned.libraryid = contains.libraryid AND contains.gameid IN (SELECT gameid FROM evaluate) AND contains.gameid = games.gameid"
         cursor = g.conn.execute(cmd, (uid))
@@ -93,6 +82,12 @@ def library():
         cursor.close()
 
     return render_template('library.html', games=owned_games, name=user, permissions=permissions)
+
+@app.route('/submit/', methods=['GET', 'POST'])
+def submit():
+    uid, user, permissions = get_user_info()
+
+    return render_template('submit.html', name=user, permissions=permissions)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -110,24 +105,22 @@ def login():
             cursor = g.conn.execute(cmd, (uid))
             name = cursor.fetchone()
 
-            session['uid'] = uid
-            session['name'] = str(name.name)
-
             # check if user is developer, gamer, or admin
+            # have to be either of the three.
             cmd = "SELECT * FROM gamers WHERE gamers.uid=%s"
             cursor = g.conn.execute(cmd, (uid))
             # gamer
             if cursor.rowcount > 0:
-                session['permissions'] = 'gamer'
+                set_session_info(uid, str(name.name), 'gamer')
             else:
                 # developer
                 cmd = "SELECT * FROM developers WHERE developers.uid=%s"
                 cursor = g.conn.execute(cmd, (uid))
                 if cursor.rowcount > 0:
-                    session['permissions'] = 'dev'
+                    set_session_info(uid, str(name.name), 'dev')
                 # admin
                 else:
-                    session['permissions'] = 'admin'
+                    set_session_info(uid, str(name.name), 'admin')
 
             cursor.close()
             return redirect(url_for('index'))
@@ -181,10 +174,7 @@ def register_gamer():
         cursor.close()
         gc.collect()
 
-        session['logged_in'] = True
-        session['uid'] = uid
-        session['name'] = name
-        session['permissions'] = 'gamer'
+        set_session_info(uid, name, 'gamer')
 
         return redirect(url_for('index'))
 
@@ -221,10 +211,7 @@ def register_dev():
         g.conn.close()
         gc.collect()
 
-        session['logged_in'] = True
-        session['uid'] = uid
-        session['name'] = name
-        session['permissions'] = 'dev'
+        set_session_info(uid, name, 'dev')
 
         return redirect(url_for('index'))
 
@@ -263,6 +250,23 @@ def filter():
 
     return redirect(url_for('index'))
 
+
+def get_user_info():
+    user = None
+    permissions = None
+    uid = None
+    if session.has_key('uid'):
+        uid = session['uid']
+        user = session['name']
+        permissions = session['permissions']
+
+    return uid, user, permissions
+
+def set_session_info(uid, name, permissions):
+    session['logged_in'] = True
+    session['uid'] = uid
+    session['name'] = name
+    session['permissions'] = permissions
 
 def filter_game(cmd, arg):
     games = []
