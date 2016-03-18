@@ -2,6 +2,7 @@ from flask import Flask, flash, request, render_template, g, redirect, Response,
 from app import app
 from server import test_server, fakesteam_server
 import gc
+import ast
 
 server = fakesteam_server()
 
@@ -35,20 +36,34 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-    cursor = g.conn.execute("SELECT title, url FROM games")
+    cursor = g.conn.execute("SELECT gameid, title, url FROM games")
     games = []
     for result in cursor:
         game = {}
+        game['gameid'] = result['gameid']
         game['title'] = result['title']
         game['url'] = result['url']
         games.append(game)
     cursor.close()
 
+    filtered_games = []
+    # apply filter
+    filtered_os = list(request.args.getlist('filtered_os'))
+    filtered_gameplay = list(request.args.getlist('filtered_gameplay'))
+    filtered_genre = list(request.args.getlist('filtered_genre'))
+    excluded = filtered_os + filtered_gameplay + filtered_genre
+
+    print excluded
+    for i in range(len(games)):
+        gameid = games[i].get('gameid')
+        if unicode(gameid) not in excluded:
+            filtered_games.append(games[i])
+
     user = None
     if session.has_key('name'):
         user = session['name']
 
-    return render_template('index.html', games=games, name=user)
+    return render_template('index.html', games=filtered_games, name=user)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -111,6 +126,10 @@ def register_gamer():
         g.conn.execute(cmd, (uid, name))
         cmd = "insert into gamers values(%s, %s)"
         g.conn.execute(cmd, (uid, username))
+
+        # TODO: ADD LIBRARY FOR NEW USER. RANDOM GENERATE LIBID.
+        cmd = "insert into library_owned values(%s, %s)"
+        g.conn.execute(cmd, ())
         gc.collect()
 
         session['logged_in'] = True
@@ -154,3 +173,45 @@ def register_dev():
         return redirect(url_for('index'))
 
     return render_template('register_dev.html')
+
+
+@app.route('/filter/', methods=['GET', 'POST'])
+def filter():
+    if request.method == 'POST':
+        os = request.form['os']
+        gameplay = request.form['gameplay']
+        genre = request.form['genre']
+
+        filtered_os = []
+        # filter OS:
+        if os != "all":
+            cmd = "select games.gameid from games except (select games.gameid from games, systemrequirements_has where games.gameid = systemrequirements_has.gameid and systemrequirements_has.OS=%s)"
+            filtered_os = filter_game(cmd, os)
+
+        filtered_gameplay = []
+        # filter gameplay:
+        if gameplay != "all":
+            cmd = "select games.gameid from games where games.gameplay !=%s"
+            filtered_gameplay = filter_game(cmd, gameplay)
+
+        filtered_genre = []
+        # filter genre
+        if genre != "all":
+            cmd = "select games.gameid from games where games.genre !=%s"
+            filtered_genre = filter_game(cmd, genre)
+
+        print filtered_os
+        print filtered_gameplay
+        print filtered_genre
+        return redirect(url_for('index', filtered_os=filtered_os, filtered_gameplay=filtered_gameplay, filtered_genre=filtered_genre))
+
+    return redirect(url_for('index'))
+
+
+def filter_game(cmd, arg):
+    games = []
+    cursor = g.conn.execute(cmd, (arg))
+    for result in cursor:
+        games.append(result['gameid'])
+
+    return games

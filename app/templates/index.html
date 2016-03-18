@@ -2,25 +2,26 @@
 {% block content %}
   <div id="wrapper">
     <section class="filters">
+        <form method="POST" action="/filter/">
         <div class="select-style">
-          <select>
-            <option value="all-os">All</option>
+          <select name="os">
+            <option value="all">All</option>
             <option value="mac">Mac</option>
             <option value="windows">Windows</option>
             <option value="linux">Linux</option>
           </select>
         </div>
         <div class="select-style">
-          <select>
-            <option value="all-gameplay">All</option>
-            <option value="single">Single-Player</option>
-            <option value="multi">Multi-Player</option>
+          <select name="gameplay">
+            <option value="all">All</option>
+            <option value="single-player">Single-Player</option>
+            <option value="multi-player">Multi-Player</option>
             <option value="both">Both</option>
           </select>
         </div>
         <div class="select-style">
-          <select>
-            <option value="all-genre">All</option>
+          <select name="genre">
+            <option value="all">All</option>
             <option value="moba">MOBA</option>
             <option value="puzzle">Puzzle</option>
             <option value="fps">FPS</option>
@@ -32,6 +33,8 @@
             <option value="indie">Indie</option>
           </select>
         </div>
+        <button type="submit" class="submit-btn">FILTER  </button>
+        </form>
     </section>
     <!-- gallery section -->
     <section>

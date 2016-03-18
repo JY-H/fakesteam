@@ -294,3 +294,15 @@ nav a.selected, nav a:hover {
     outline: none;
 }
 
+.submit-btn {
+    margin: 0 1.5% 2.5% 2.5% ;
+    background-color: #f2b632;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+
