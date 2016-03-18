@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/">STORE</a></li>
+        {% if not permissions or permissions == "gamer" %}
+        <li><a href="/library/">LIBRARY</a></li>
+        {% elif permissions == "dev" %}
+        <li><a href="/submit/">SUBMIT GAME</a></li>
+        {% elif permissions == "admin" %}
+        <li><a href="admin.html">APPROVE GAMES</a></li>
+        {% endif %}
+        <li><a href="/rate/" class="selected">WRITE REVIEWS</a></li>
+      </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+<div class="container">
+   <div class="login">
+       {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <p class="register-login-link">
+           {% for message in messages %}
+           {{ message }}
+           {% endfor %}
+       </p>
+       {% endif %}
+       {% endwith %}
+      <form method="post" action="/register_dev/">
+          <input type="number" name="uid" placeholder="Your ID" required="required" class="input-txt" />
+          <input type="number" name="gameid" placeholder="Game ID" required="required" class="input-txt" />
+          <input type="number" name="stars" placeholder="Rating out of 5" class="input-txt" />
+          <textarea name="description" rows="4" cols="50" class="text-area"> REVIEW HERE...</textarea>
+          <div class="login-footer">
+            <button type="submit" class="submit-btn btn--right">Submit  </button>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}
