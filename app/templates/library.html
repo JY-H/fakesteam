@@ -3,13 +3,7 @@
     <nav>
       <ul>
         <li><a href="/">STORE</a></li>
-        {% if not permissions or permissions == "gamer" %}
         <li><a href="/library/" class="selected">LIBRARY</a></li>
-        {% elif permissions == "dev" %}
-        <li><a href="submit.html">SUBMIT</a></li>
-        {% elif permissions == "admin" %}
-        <li><a href="evaluate.html">EVALUATE</a></li>
-        {% endif %}
         <li><a href="community.html">COMMUNITY</a></li>
       </ul>
     </nav>

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/">STORE</a></li>
+        <li><a href="/submit/" class="selected">SUBMIT</a></li>
+        <li><a href="community.html">COMMUNITY</a></li>
+      </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+<div class="container">
+   <div class="login">
+       {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <p class="register-login-link">
+           {% for message in messages %}
+           {{ message }}
+           {% endfor %}
+       </p>
+       {% endif %}
+       {% endwith %}
+      <form method="post" action="/register_dev/">
+          <section class="filters">
+            <div class="select-style">
+              <select name="os">
+                <option value="all">OS</option>
+                <option value="mac">Mac</option>
+                <option value="windows">Windows</option>
+                <option value="linux">Linux</option>
+              </select>
+            </div>
+            <div class="select-style">
+              <select name="gameplay">
+                <option value="all">Gameplay</option>
+                <option value="single-player">Single-Player</option>
+                <option value="multi-player">Multi-Player</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+            <div class="select-style">
+              <select name="genre">
+                <option value="all">Genre</option>
+                <option value="moba">MOBA</option>
+                <option value="puzzle">Puzzle</option>
+                <option value="fps">FPS</option>
+                <option value="survival">Survival</option>
+                <option value="strategy">Strategy</option>
+                <option value="rpg">RPG</option>
+                <option value="sports">Sports</option>
+                <option value="simulation">Simulation</option>
+                <option value="indie">Indie</option>
+              </select>
+            </div>
+          </section>
+          <input type="number" name="uid" placeholder="Your ID" required="required" class="input-txt" />
+          <input type="number" name="gameid" placeholder="Pick a Game ID" required="required" class="input-txt" />
+          <input type="number" name="price" placeholder="Price of Your Game" class="input-txt" />
+          <input type="text" name="title" placeholder="Title of Your Game" class="input-txt" />
+          <input type="text" name="url" placeholder="URL of Game Banner" class="input-txt" />
+          <textarea name="description" rows="4" cols="50" class="text-area"> DESCRIPTION HERE...</textarea>
+          <div class="login-footer">
+            <button type="submit" class="submit-btn btn--right">Submit  </button>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}
