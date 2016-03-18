@@ -294,6 +294,16 @@ nav a.selected, nav a:hover {
     outline: none;
 }
 
+.text-area{
+    font-size: 1em;
+    color: #677077;
+    font-weight: bold;
+    margin: 2.5% 0 2.5% 0;
+	height:60px;
+	border:2px dashed #D1C7AC;
+	width: 450px;
+}
+
 .submit-btn {
     margin: 0 1.5% 2.5% 2.5% ;
     background-color: #f2b632;
