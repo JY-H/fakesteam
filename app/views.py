@@ -2,7 +2,8 @@ from flask import Flask, flash, request, render_template, g, redirect, Response,
 from app import app
 from server import test_server, fakesteam_server
 import gc
-import ast
+import sys
+
 
 server = fakesteam_server()
 
@@ -107,10 +108,16 @@ def register_gamer():
         uid = request.form['uid']
         username = request.form['username']
         name = request.form['name']
-        cmd = "select * from users where users.uid =%s"
-        cursor = g.conn.execute(cmd, (uid))
+        import IPython
+        IPython.embed()
+        # check uid valid
+        if int(uid) <= 0 or int(uid) >= sys.maxint / 100:
+            flash("Invalid ID! The value you entered is either too large or negative.")
+            return render_template('register_gamer.html')
 
         # check uid unique
+        cmd = "select * from users where users.uid =%s"
+        cursor = g.conn.execute(cmd, (uid))
         if cursor.rowcount > 0:
             flash("That ID is already taken! Choose another one.")
             return render_template('register_gamer.html')
@@ -127,9 +134,10 @@ def register_gamer():
         cmd = "insert into gamers values(%s, %s)"
         g.conn.execute(cmd, (uid, username))
 
-        # TODO: ADD LIBRARY FOR NEW USER. RANDOM GENERATE LIBID.
-        cmd = "insert into library_owned values(%s, %s)"
-        g.conn.execute(cmd, ())
+
+        # generate empty library
+        cmd = "insert into library_owned values(%s)"
+        g.conn.execute(cmd, (uid))
         gc.collect()
 
         session['logged_in'] = True
@@ -150,6 +158,11 @@ def register_dev():
         uid = request.form['uid']
         name = request.form['name']
         yrs_dev = request.form['exp_dev']
+
+        # check uid valid
+        if int(uid) <= 0 or int(uid) >= sys.maxint / 100 or int(yrs_dev) < 0:
+            flash("Invalid ID or EXP! The value you entered is either too large or negative.")
+            return render_template('register_gamer.html')
         cmd = "select * from users where users.uid =%s"
         cursor = g.conn.execute(cmd, (uid))
 
