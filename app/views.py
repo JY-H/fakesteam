@@ -64,7 +64,11 @@ def index():
     if session.has_key('name'):
         user = session['name']
 
-    return render_template('index.html', games=filtered_games, name=user)
+    permissions = None
+    if session.has_key('permissions'):
+        permissions = session['permissions']
+
+    return render_template('index.html', games=filtered_games, name=user, permissions=permissions)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -84,13 +88,22 @@ def login():
             session['uid'] = uid
             session['name'] = str(name.name)
 
-            # check if user is developer or gamer
+            # check if user is developer, gamer, or admin
             cmd = "select * from gamers where gamers.uid=%s"
             cursor = g.conn.execute(cmd, (uid))
+            # gamer
             if cursor.rowcount > 0:
                 session['permissions'] = 'gamer'
             else:
-                session['permissions'] = 'dev'
+                # developer
+                cmd = "select * from developers where developers.uid=%s"
+                cursor = g.conn.execute(cmd, (uid))
+                if cursor.rowcount > 0:
+                    session['permissions'] = 'dev'
+                # admin
+                else:
+                    session['permissions'] = 'admin'
+
             return redirect(url_for('index'))
 
     return render_template('login.html')
@@ -108,8 +121,7 @@ def register_gamer():
         uid = request.form['uid']
         username = request.form['username']
         name = request.form['name']
-        import IPython
-        IPython.embed()
+
         # check uid valid
         if int(uid) <= 0 or int(uid) >= sys.maxint / 100:
             flash("Invalid ID! The value you entered is either too large or negative.")
