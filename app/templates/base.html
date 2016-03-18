@@ -15,8 +15,9 @@
 
     <div id="header">
       <a href="/"> <h1>FAKESTEAM </h1></a>
-        {% if user %}
-        <h2>Welcome, <b>{{user.name}}</b></h2>
+        {% if name %}
+        <h2>Welcome, <b>{{name}}.</b><br>
+            <a href="/logout/"><b>LOGOUT</b></a></h2>
         {% else %}
         <a href="/login/"><h2><b>LOGIN</b></h2></a>
         {% endif %}

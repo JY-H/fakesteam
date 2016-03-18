@@ -196,7 +196,6 @@ nav a.selected, nav a:hover {
   color: #f2b632;
 }
 
-
 /**********************************************
  LOGIN AND REGISTER
 **********************************************/
@@ -217,8 +216,6 @@ nav a.selected, nav a:hover {
   border: none;
   font-size: 1em;
   color: #4478a0;
-  text-transform: uppercase;
-  text-transform: uppercase;
   font-weight: bold;
   border-bottom: 1.5px dotted #252839;
   -moz-box-sizing: border-box;
@@ -231,12 +228,16 @@ nav a.selected, nav a:hover {
 }
 .input-txt:-moz-placeholder {
   color: #677077;
+  text-transform: uppercase;
 }
 .input-txt:-ms-input-placeholder {
   color: #677077;
+  text-transform: uppercase;
+
 }
 .input-txt::-webkit-input-placeholder {
   color: #677077;
+  text-transform: uppercase;
 }
 
 .login-footer {

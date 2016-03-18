@@ -1,9 +1,10 @@
 import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, flash, request, render_template, g, redirect, Response, url_for, session
 from app import app
 from server import test_server, fakesteam_server
+import gc
 
 server = fakesteam_server()
 
@@ -46,13 +47,113 @@ def index():
         games.append(game)
     cursor.close()
 
-    print games
-    return render_template('index.html', games=games)
+    user = None
+    if session.has_key('name'):
+        user = session['name']
+
+    return render_template('index.html', games=games, name=user)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        uid = request.form['uid']
+        cmd = "select * from users where users.uid =%s"
+        cursor = g.conn.execute(cmd, (uid))
+
+        if cursor.rowcount <= 0:
+            flash("Invalid ID. Please try again.")
+            return render_template('login.html')
+        else:
+            cmd = "select name from users where users.uid=%s"
+            cursor = g.conn.execute(cmd, (uid))
+            name = cursor.fetchone()
+
+            session['uid'] = uid
+            session['name'] = str(name.name)
+
+            # check if user is developer or gamer
+            cmd = "select * from gamers where gamers.uid=%s"
+            cursor = g.conn.execute(cmd, (uid))
+            if cursor.rowcount > 0:
+                session['permissions'] = 'gamer'
+            else:
+                session['permissions'] = 'dev'
+            return redirect(url_for('index'))
+
     return render_template('login.html')
 
-@app.route('/register/', methods=['GET', 'POST'])
-def register():
-    return render_template('register.html')
+@app.route('/logout/')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+@app.route('/register_gamer/', methods=['GET', 'POST'])
+def register_gamer():
+    # if it's a POST request
+    if request.method == 'POST':
+        # get the information
+        uid = request.form['uid']
+        username = request.form['username']
+        name = request.form['name']
+        cmd = "select * from users where users.uid =%s"
+        cursor = g.conn.execute(cmd, (uid))
+
+        # check uid unique
+        if cursor.rowcount > 0:
+            flash("That ID is already taken! Choose another one.")
+            return render_template('register.html')
+
+        # check username unique
+        cmd = "select * from gamers where gamers.username=%s"
+        cursor = g.conn.execute(cmd, (username))
+        if cursor.rowcount > 0:
+            flash("That username is already taken! Choose another one.")
+            return render_template('register.html')
+
+        cmd = "insert into users values(%s, %s)"
+        g.conn.execute(cmd, (uid, name))
+        cmd = "insert into gamers values(%s, %s)"
+        g.conn.execute(cmd, (uid, username))
+        gc.collect()
+
+        session['logged_in'] = True
+        session['uid'] = uid
+        session['name'] = name
+        session['permissions'] = 'gamer'
+
+        return redirect(url_for('index'))
+
+    return render_template('register_gamer.html')
+
+
+@app.route('/register_dev/', methods=['GET', 'POST'])
+def register_dev():
+    # if it's a POST request
+    if request.method == 'POST':
+        # get the information
+        uid = request.form['uid']
+        name = request.form['name']
+        yrs_dev = request.form['exp_dev']
+        cmd = "select * from users where users.uid =%s"
+        cursor = g.conn.execute(cmd, (uid))
+
+        # check uid unique
+        if cursor.rowcount > 0:
+            flash("That ID is already taken! Choose another one.")
+            return render_template('register.html')
+        else:
+            cmd = "insert into users values(%s, %s)"
+            g.conn.execute(cmd, (uid, name))
+            cmd = "insert into developers values(%s, %s)"
+            g.conn.execute(cmd, (uid, yrs_dev))
+        g.conn.close()
+        gc.collect()
+
+        session['logged_in'] = True
+        session['uid'] = uid
+        session['name'] = name
+        session['permissions'] = 'dev'
+
+        return redirect(url_for('index'))
+
+    return render_template('register_dev.html')

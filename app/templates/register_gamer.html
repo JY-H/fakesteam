@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+   <div class="login">
+       {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <p class="register-login-link">
+           {% for message in messages %}
+           {{ message }}
+           {% endfor %}
+       </p>
+       {% endif %}
+       {% endwith %}
+      <form method="post" action="/register_gamer/">
+        <input type="number" name="uid" placeholder="Your ID" required="required" class="input-txt" />
+        <input type="text" name="username" placeholder="Your Username" required="required" class="input-txt" />
+          <input type="text" name="name" placeholder="Your Name" required="required" class="input-txt" />
+          <div class="login-footer">
+             <a href="/login/" class="register-login-link">
+              <span>ಠ╭╮ಠ</span>
+              I already have an uid
+            </a>
+            <button type="submit" class="btn btn--right">Register  </button>
+          </div>
+      </form>
+  </div>
+</div>
+{% endblock %}
