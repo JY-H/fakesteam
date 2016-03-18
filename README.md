@@ -1,7 +1,12 @@
 # fakesteam
 ## TODO:
 #### Login/Registration
-* Create empty library for gamer registration
+* ~~Login Page~~
+* ~~Registration for Gamers and Developers~~
+* ~~Logout~~
+* ~~Login button should change to a welcome message upon login.~~
+* ~~Error handling for existing UID or username.~~
+* Create empty library upon gamer registration
 * Upon login, change nav bar to correspond to user permissions
 
 #### Library/Submit/Evaluate
@@ -12,6 +17,8 @@
 * Should be a single page, dynamically generated based on permissions. 
 
 #### Games
+* ~~Store page; views all available games.~~
+* ~~Filter function for the store page, allowing filter by OS, gameplay, and genre.~~
 * Set up a single page for Games where all its information is displayed. Generate dynamically. 
 * Purchase button that redirects to login if not currently logged in, and adds the game to the gamer's library otherwise. 
 * Rate button that redirects to the community page (optional). 
