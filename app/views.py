@@ -113,14 +113,14 @@ def register_gamer():
         # check uid unique
         if cursor.rowcount > 0:
             flash("That ID is already taken! Choose another one.")
-            return render_template('register.html')
+            return render_template('register_gamer.html')
 
         # check username unique
         cmd = "select * from gamers where gamers.username=%s"
         cursor = g.conn.execute(cmd, (username))
         if cursor.rowcount > 0:
             flash("That username is already taken! Choose another one.")
-            return render_template('register.html')
+            return render_template('register_gamer.html')
 
         cmd = "insert into users values(%s, %s)"
         g.conn.execute(cmd, (uid, name))
@@ -156,7 +156,7 @@ def register_dev():
         # check uid unique
         if cursor.rowcount > 0:
             flash("That ID is already taken! Choose another one.")
-            return render_template('register.html')
+            return render_template('register_dev.html')
         else:
             cmd = "insert into users values(%s, %s)"
             g.conn.execute(cmd, (uid, name))
