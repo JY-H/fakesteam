@@ -8,17 +8,19 @@ SELECT * FROM Games;
 SELECT gameid, title, price FROM Games WHERE gameid NOT IN (SELECT gameid FROM Evaluate);
 
 # Gamers/"store" can only see Games that have been evaluated; filter and sort as needed
-SELECT gameid, title, price FROM Games WHERE gameid IN (SELECT gameid FROM Evaluate) [AND os = "<input>"...etc][ORDER BY "<attr>" ASC/DESC];
+SELECT gameid, title, price FROM Games WHERE gameid IN (SELECT gameid FROM Evaluate);
 
 # Gamers/Library can only see what the Gamer owns
-SELECT gameid, title, genre, gameplay FROM Games, Library_Owned, Contains WHERE Games.gameid = Library_Owned.gameid
-AND Library_Owned.libraryid = Contains.libraryid AND gameid IN (SELECT gameid FROM Evaluate);
+SELECT contains.gameid, games.title, games.url FROM library_owned, contains, games WHERE library_owned.uid =%s  AND library_owned.libraryid = contains.libraryid AND contains.gameid IN (SELECT gameid FROM evaluate) AND contains.gameid = games.gameid;
 
-# Developer submits game
-INSERT INTO Games (gameid, title, description, genre, gameplay, price) VALUES (________________);
+# Filtering by OS
+SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s);
 
-# Admin evaluates game
-INSERT INTO Evaluate (uid, gameid) VALUES (_______);
+# Filtering by gameplay
+SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate);
 
-# Gamer rates Game
-INSERT INTO Review_Rated(uid, gameid, posted_time, stars, commentary) VALUES (___);
+# Filtering by genre
+SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate);
+
+
+
