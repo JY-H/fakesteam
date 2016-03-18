@@ -37,7 +37,7 @@ def teardown_request(exception):
 
 @app.route('/')
 def index():
-    cursor = g.conn.execute("SELECT gameid, title, url FROM games")
+    cursor = g.conn.execute("SELECT gameid, title, url FROM games WHERE gameid IN (SELECT gameid FROM evaluate)")
     games = []
     for result in cursor:
         game = {}
@@ -70,18 +70,43 @@ def index():
 
     return render_template('index.html', games=filtered_games, name=user, permissions=permissions)
 
+@app.route('/library/')
+def library():
+    user = None
+    permissions = None
+    uid = None
+    owned_games = []
+    if session.has_key('uid'):
+        uid = session['uid']
+        user = session['name']
+        permissions = session['permissions']
+
+        # get player owned games:
+        cmd = "SELECT contains.gameid, games.title, games.url FROM library_owned, contains, games WHERE library_owned.uid =%s AND library_owned.libraryid = contains.libraryid AND contains.gameid IN (SELECT gameid FROM evaluate) AND contains.gameid = games.gameid"
+        cursor = g.conn.execute(cmd, (uid))
+        for result in cursor:
+            game = {}
+            game['gameid'] = result['gameid']
+            game['title'] = result['title']
+            game['url'] = result['url']
+            owned_games.append(game)
+        cursor.close()
+
+    return render_template('library.html', games=owned_games, name=user, permissions=permissions)
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         uid = request.form['uid']
-        cmd = "select * from users where users.uid =%s"
+        cmd = "SELECT * FROM users WHERE users.uid =%s"
         cursor = g.conn.execute(cmd, (uid))
 
         if cursor.rowcount <= 0:
             flash("Invalid ID. Please try again.")
+            cursor.close()
             return render_template('login.html')
         else:
-            cmd = "select name from users where users.uid=%s"
+            cmd = "SELECT name FROM users WHERE users.uid=%s"
             cursor = g.conn.execute(cmd, (uid))
             name = cursor.fetchone()
 
@@ -89,14 +114,14 @@ def login():
             session['name'] = str(name.name)
 
             # check if user is developer, gamer, or admin
-            cmd = "select * from gamers where gamers.uid=%s"
+            cmd = "SELECT * FROM gamers WHERE gamers.uid=%s"
             cursor = g.conn.execute(cmd, (uid))
             # gamer
             if cursor.rowcount > 0:
                 session['permissions'] = 'gamer'
             else:
                 # developer
-                cmd = "select * from developers where developers.uid=%s"
+                cmd = "SELECT * FROM developers WHERE developers.uid=%s"
                 cursor = g.conn.execute(cmd, (uid))
                 if cursor.rowcount > 0:
                     session['permissions'] = 'dev'
@@ -104,6 +129,7 @@ def login():
                 else:
                     session['permissions'] = 'admin'
 
+            cursor.close()
             return redirect(url_for('index'))
 
     return render_template('login.html')
@@ -128,28 +154,31 @@ def register_gamer():
             return render_template('register_gamer.html')
 
         # check uid unique
-        cmd = "select * from users where users.uid =%s"
+        cmd = "SELECT * FROM users WHERE users.uid =%s"
         cursor = g.conn.execute(cmd, (uid))
         if cursor.rowcount > 0:
             flash("That ID is already taken! Choose another one.")
+            cursor.close()
             return render_template('register_gamer.html')
 
         # check username unique
-        cmd = "select * from gamers where gamers.username=%s"
+        cmd = "SELECT * FROM gamers WHERE gamers.username=%s"
         cursor = g.conn.execute(cmd, (username))
         if cursor.rowcount > 0:
             flash("That username is already taken! Choose another one.")
+            cursor.close()
             return render_template('register_gamer.html')
 
-        cmd = "insert into users values(%s, %s)"
+        cmd = "INSERT INTO users VALUES(%s, %s)"
         g.conn.execute(cmd, (uid, name))
-        cmd = "insert into gamers values(%s, %s)"
+        cmd = "INSERT INTO gamers VALUES(%s, %s)"
         g.conn.execute(cmd, (uid, username))
 
 
         # generate empty library
-        cmd = "insert into library_owned values(%s)"
+        cmd = "INSERT INTO library_owned VALUES(%s)"
         g.conn.execute(cmd, (uid))
+        cursor.close()
         gc.collect()
 
         session['logged_in'] = True
@@ -175,18 +204,20 @@ def register_dev():
         if int(uid) <= 0 or int(uid) >= sys.maxint / 100 or int(yrs_dev) < 0:
             flash("Invalid ID or EXP! The value you entered is either too large or negative.")
             return render_template('register_gamer.html')
-        cmd = "select * from users where users.uid =%s"
+        cmd = "SELECT * FROM users WHERE users.uid =%s"
         cursor = g.conn.execute(cmd, (uid))
 
         # check uid unique
         if cursor.rowcount > 0:
             flash("That ID is already taken! Choose another one.")
+            cursor.close()
             return render_template('register_dev.html')
         else:
-            cmd = "insert into users values(%s, %s)"
+            cmd = "INSERT INTO users VALUES(%s, %s)"
             g.conn.execute(cmd, (uid, name))
-            cmd = "insert into developers values(%s, %s)"
+            cmd = "INSERT INTO developers VALUES(%s, %s)"
             g.conn.execute(cmd, (uid, yrs_dev))
+        cursor.close()
         g.conn.close()
         gc.collect()
 
@@ -210,19 +241,19 @@ def filter():
         filtered_os = []
         # filter OS:
         if os != "all":
-            cmd = "select games.gameid from games except (select games.gameid from games, systemrequirements_has where games.gameid = systemrequirements_has.gameid and systemrequirements_has.OS=%s)"
+            cmd = "SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
             filtered_os = filter_game(cmd, os)
 
         filtered_gameplay = []
         # filter gameplay:
         if gameplay != "all":
-            cmd = "select games.gameid from games where games.gameplay !=%s"
+            cmd = "SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
             filtered_gameplay = filter_game(cmd, gameplay)
 
         filtered_genre = []
         # filter genre
         if genre != "all":
-            cmd = "select games.gameid from games where games.genre !=%s"
+            cmd = "SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
             filtered_genre = filter_game(cmd, genre)
 
         print filtered_os
@@ -239,4 +270,5 @@ def filter_game(cmd, arg):
     for result in cursor:
         games.append(result['gameid'])
 
+    cursor.close()
     return games
