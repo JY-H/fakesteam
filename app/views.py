@@ -1,6 +1,3 @@
-import os
-from sqlalchemy import *
-from sqlalchemy.pool import NullPool
 from flask import Flask, flash, request, render_template, g, redirect, Response, url_for, session
 from app import app
 from server import test_server, fakesteam_server
