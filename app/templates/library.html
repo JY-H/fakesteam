@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/">STORE</a></li>
+        {% if not permissions or permissions == "gamer" %}
+        <li><a href="/library/" class="selected">LIBRARY</a></li>
+        {% elif permissions == "dev" %}
+        <li><a href="submit.html">SUBMIT</a></li>
+        {% elif permissions == "admin" %}
+        <li><a href="evaluate.html">EVALUATE</a></li>
+        {% endif %}
+        <li><a href="community.html">COMMUNITY</a></li>
+      </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+  <div id="wrapper">
+    <!-- gallery section -->
+    <section>
+      {% for game in games %}
+      <ul id="portfolio">
+        <li>
+            <img src="{{game.url}}" alt="">
+            <p>{{game.title}}</p>
+          </a>
+        </li>
+      </ul>
+        {% endfor %}
+    </section>
+{% endblock %}

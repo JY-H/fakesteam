@@ -1,11 +1,26 @@
 {% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/" class="selected">STORE</a></li>
+        {% if not permissions or permissions == "gamer" %}
+        <li><a href="/library/">LIBRARY</a></li>
+        {% elif permissions == "dev" %}
+        <li><a href="submit.html">SUBMIT</a></li>
+        {% elif permissions == "admin" %}
+        <li><a href="evaluate.html">EVALUATE</a></li>
+        {% endif %}
+        <li><a href="community.html">COMMUNITY</a></li>
+      </ul>
+    </nav>
+{% endblock %}
 {% block content %}
   <div id="wrapper">
     <section class="filters">
         <form method="POST" action="/filter/">
         <div class="select-style">
           <select name="os">
-            <option value="all">All</option>
+            <option value="all">OS</option>
             <option value="mac">Mac</option>
             <option value="windows">Windows</option>
             <option value="linux">Linux</option>
@@ -13,7 +28,7 @@
         </div>
         <div class="select-style">
           <select name="gameplay">
-            <option value="all">All</option>
+            <option value="all">Gameplay</option>
             <option value="single-player">Single-Player</option>
             <option value="multi-player">Multi-Player</option>
             <option value="both">Both</option>
@@ -21,7 +36,7 @@
         </div>
         <div class="select-style">
           <select name="genre">
-            <option value="all">All</option>
+            <option value="all">Genre</option>
             <option value="moba">MOBA</option>
             <option value="puzzle">Puzzle</option>
             <option value="fps">FPS</option>

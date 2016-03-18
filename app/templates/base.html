@@ -23,19 +23,7 @@
         {% endif %}
     </div>
 
-    <nav>
-      <ul>
-        <li><a href="/" class="selected">STORE</a></li>
-        {% if not permissions or permissions == "gamer" %}
-        <li><a href="library.html">LIBRARY</a></li>
-        {% elif permissions == "dev" %}
-        <li><a href="submit.html">SUBMIT</a></li>
-        {% elif permissions == "admin" %}
-        <li><a href="evaluate.html">EVALUATE</a></li>
-        {% endif %}
-        <li><a href="community.html">COMMUNITY</a></li>
-      </ul>
-    </nav>
+    {% block header %}{% endblock %}
 
   </header>
 
