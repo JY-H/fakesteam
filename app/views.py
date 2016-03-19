@@ -101,9 +101,7 @@ def submit():
     """
     uid, user, permissions = get_user_info()
     if request.method == 'POST':
-        uid = request.form['uid']
-        # since this page is not accessible unless valdiated as developer
-        # we don't check whether uid is valid
+        uid = session['uid']
         gameid = request.form['gameid']
         price = request.form['price']
         title = request.form['title']
@@ -113,7 +111,7 @@ def submit():
         url = request.form['url']
 
         # check price at least 0
-        if price < 0:
+        if int(price) < 0:
             flash(msgs.NEGATIVE_PRICE)
             return render_template('submit.html', name=user, permissions=permissions)
 
