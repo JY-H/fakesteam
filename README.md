@@ -14,7 +14,7 @@
 #### Library/Submit/Evaluate
 * Based on the user's permissions, set up library/submission/evaluation pages. 
     * ~~gamers can view games owned.~~
-    * developers can submit new games, which cannot yet be viewed by gamers
+    * ~~developers can submit new games, which cannot yet be viewed by gamers.~~
     * admins can evaluate games submitted by developers. 
 
 #### Games
