@@ -2,6 +2,15 @@
 {% block content %}
 <div class="container">
    <div class="login">
+       {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <p class="register-login-link">
+           {% for message in messages %}
+           {{ message }}
+           {% endfor %}
+       </p>
+       {% endif %}
+       {% endwith %}
       <form method="post">
         <input type="text" name="uid" placeholder="Your Chosen UID" required="required" class="input-txt" />
           <div class="login-footer">
