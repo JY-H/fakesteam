@@ -25,7 +25,7 @@
 * Rate button that redirects to the community page (optional). 
 
 #### Community
-* Set up a community page where gamers, admins, developers can post reviews for a specific game. 
+* ~~Set up a community page where gamers, admins, developers can post reviews for a specific game.~~ 
 
 #### Misc
 * Error handling. 
