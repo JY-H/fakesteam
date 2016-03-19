@@ -27,8 +27,6 @@ img {
   padding: 0 5%;
 }
 
-
-
 /**********************************************
  HEADING
 **********************************************/
@@ -204,6 +202,7 @@ nav a.selected, nav a:hover {
   height: 500px;
   margin: 0 auto;
   padding-top: 15em;
+  font-size: 0.75em;
 }
 
 .login {
@@ -240,6 +239,11 @@ nav a.selected, nav a:hover {
   text-transform: uppercase;
 }
 
+.less-padding {
+  padding: 15px 10px;
+}
+
+
 .login-footer {
   margin: 10px 0;
   overflow: hidden;
@@ -266,13 +270,13 @@ nav a.selected, nav a:hover {
 **********************************************/
 
 .select-style {
+    font-size: 0.75em;
     display: inline-block;
     padding: 0;
     margin: 0 1.5% 2.5% 2.5% ;
     border: 1px solid #ccc;
     width: 120px;
     border-radius: 3px;
-    overflow: hidden;
     background-color: #fff;
 
     background: #fff url("http://www.scottgood.com/jsg/blog.nsf/images/arrowdown.gif") no-repeat 90% 50%;
@@ -312,7 +316,6 @@ nav a.selected, nav a:hover {
     padding: 8px 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 12px;
 }
 
