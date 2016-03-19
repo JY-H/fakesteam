@@ -5,9 +5,11 @@ class sql_queries:
         self.SELECT_GAMER="SELECT * FROM gamers WHERE gamers.uid=%s"
         self.SELECT_DEVELOPER="SELECT * FROM developers WHERE developers.uid=%s"
         self.SELECT_GAME="SELECT * FROM games WHERE games.gameid =%s"
+        self.SELECT_GAME_FROM_TITLE="SELECT gameid FROM games WHERE games.title=%s"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
+        self.GET_GAME_TITLE="SELECT title FROM games"
         self.FILTER_OS="SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
         self.FILTER_GAMEPLAY="SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
         self.FILTER_GENRE="SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
@@ -22,6 +24,7 @@ class sql_queries:
         self.ADD_LIBRARY="INSERT INTO library_owned VALUES(%s)"
         self.ADD_GAME="INSERT INTO games (gameid, title, description, genre, gameplay, price, url) VALUES(%s, %s, %s, %s, %s, %s, %s)"
         self.ADD_SYSREQS="INSERT INTO systemrequirements_has (gameid, os, processor, graphics) VALUES(%s, %s, %s, %s)"
+        self.ADD_REVIEW="INSERT INTO review_rated (uid, gameid, posted_time, stars, commentary) VALUES(%s, %s, now(), %s, %s)"
         self.SUBMIT_GAME="INSERT INTO submit VALUES(%s, %s)"
 
 
@@ -34,6 +37,8 @@ class messages:
         self.INVALID_LOGIN="Invalid Login. Please try again."
         self.NEGATIVE_PRICE="Price cannot be negative."
         self.NEGATIVE_EXP="Your experience cannot be negative."
+        self.GAME_DNE="The game you entered does not exit! Please try again"
 
         # SUCCESS
+        self.SUCCESSFUL="Success!"
         self.SUCCESSFUL_GAME_SUBMISSION="Success! Your game will be added to the store when approved."

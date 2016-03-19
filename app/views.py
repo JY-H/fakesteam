@@ -2,7 +2,6 @@ from flask import Flask, flash, request, render_template, g, redirect, Response,
 from app import app
 from server import test_server, fakesteam_server
 from constants import sql_queries, messages
-import gc
 import sys
 
 # start server
@@ -104,7 +103,7 @@ def submit():
         uid = session['uid']
         gameid = request.form['gameid']
         price = request.form['price']
-        title = request.form['title']
+        title = str(request.form['title']).upper()
         description = request.form['description']
         genre = request.form['genre']
         gameplay = request.form['gameplay']
@@ -159,6 +158,28 @@ def rate():
     :return:
     """
     uid, user, permissions = get_user_info()
+
+    if not uid:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        title = str(request.form['title']).upper()
+        stars = request.form['stars']
+        review = str(request.form['review'])
+
+        # if the title doesn't already exist.
+        if is_unique(queries.GET_GAME_TITLE, title):
+            flash(msgs.GAME_DNE)
+            return render_template('rate.html', name=user, permissions=permissions)
+
+        cursor = g.conn.execute(queries.SELECT_GAME_FROM_TITLE, title)
+        gameid = int(cursor.fetchone().gameid)
+
+        # add review for game
+        g.conn.execute(queries.ADD_REVIEW, (uid, gameid, stars, review))
+        cursor.close()
+        flash(msgs.SUCCESSFUL)
+        return render_template('rate.html', name=user, permissions=permissions)
 
     return render_template('rate.html', name=user, permissions=permissions)
 
@@ -243,7 +264,6 @@ def register_gamer():
 
         # generate empty library
         g.conn.execute(queries.ADD_LIBRARY, (uid))
-        gc.collect()
 
         set_session_info(uid, name, 'gamer')
 
@@ -285,8 +305,6 @@ def register_dev():
             g.conn.execute(queries.ADD_USER, (uid, name))
             g.conn.execute(queries.ADD_DEVELOPER, (uid, yrs_dev))
         cursor.close()
-        g.conn.close()
-        gc.collect()
 
         set_session_info(uid, name, 'dev')
         return redirect(url_for('index'))

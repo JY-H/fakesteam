@@ -26,11 +26,10 @@
        </p>
        {% endif %}
        {% endwith %}
-      <form method="post" action="/register_dev/">
-          <input type="number" name="uid" placeholder="Your ID" required="required" class="input-txt" />
-          <input type="number" name="gameid" placeholder="Game ID" required="required" class="input-txt" />
-          <input type="number" name="stars" placeholder="Rating out of 5" class="input-txt" />
-          <textarea name="description" rows="4" cols="50" class="text-area"> REVIEW HERE...</textarea>
+      <form method="post" action="/rate/">
+          <input type="text" name="title" placeholder="Title of the Game" required="required" class="input-txt" />
+          <input type="number" name="stars" placeholder="Rating out of 5" required="required" class="input-txt" />
+          <textarea name="review" rows="4" cols="50" required="required" class="text-area"> REVIEW HERE...</textarea>
           <div class="login-footer">
             <button type="submit" class="submit-btn btn--right">Submit  </button>
           </div>
