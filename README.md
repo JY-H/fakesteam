@@ -29,3 +29,9 @@
 
 #### Misc
 * Error handling. 
+
+## DB CHANGE LOG:
+* libraryid is now autoincrement
+* developers no longer have platform as an attribute.
+* games now have url as an attribute.
+* games: title now has the UNIQUE constraint. 
