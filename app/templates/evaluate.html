@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/">STORE</a></li>
+        <li><a href="/evaluate/" class="selected">EVALUATE SUBMISSIONS</a></li>
+        <li><a href="/rate/">WRITE REVIEWS</a></li>
+      </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+  <div id="wrapper">
+    <!--<section class="admin-team-display">-->
+        <!--<p>GAME SUBMISSIONS UNDER: {{team}} </p>-->
+    <!--</section>-->
+    <!-- gallery section -->
+    <section class="basic-flash">
+    {% with messages = get_flashed_messages() %}
+       {% if messages %}
+       <p class="register-login-link">
+           {% for message in messages %}
+           {{ message }}
+           {% endfor %}
+       </p>
+       {% endif %}
+    {% endwith %}
+    </section>
+    <section>
+      {% for game in games %}
+      <ul id="portfolio">
+        <li>
+            <img src="{{game.url}}" alt="">
+            <p>{{game.title}}</p>
+            <!--<form method="post" action="/evaluate/">-->
+                <!--<button type="submit" name="approve" class="submit-btn btn--right approve-color">Approve  </button>-->
+                <!--<button type="submit" name="reject" class="submit-btn btn--right reject-color">Reject  </button>-->
+            <!--</form>-->
+        </li>
+      </ul>
+        {% endfor %}
+    </section>
+  </div>
+{% endblock %}

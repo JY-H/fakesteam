@@ -151,6 +151,21 @@ def submit():
 
     return render_template('submit.html', name=user, permissions=permissions)
 
+@app.route('/evaluate/', methods=['GET', 'POST'])
+def evaluate():
+    uid, user, permissions = get_user_info()
+
+    cursor = g.conn.execute(queries.SELECT_GAME_SUBMISSIONS)
+    games = []
+    for result in cursor:
+        game = {}
+        game['gameid'] = result['gameid']
+        game['title'] = result['title']
+        game['url'] = result['url']
+        games.append(game)
+    cursor.close()
+    return render_template('evaluate.html', games=games, name=user, permissions=permissions)
+
 @app.route('/rate/', methods=['GET', 'POST'])
 def rate():
     """
@@ -168,7 +183,7 @@ def rate():
         review = str(request.form['review'])
 
         # if the title doesn't already exist.
-        if is_unique(queries.GET_GAME_TITLE, title):
+        if is_unique(queries.SELECT_GAME_FROM_TITLE, title):
             flash(msgs.GAME_DNE)
             return render_template('rate.html', name=user, permissions=permissions)
 

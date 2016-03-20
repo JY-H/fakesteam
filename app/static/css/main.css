@@ -298,6 +298,14 @@ nav a.selected, nav a:hover {
     outline: none;
 }
 
+/**********************************************
+ FORMS-RELATED CSS
+**********************************************/
+.basic-flash {
+  margin: 0 0 0 2.5%;
+  padding-top: 15em;
+  font-size: 0.75em;
+}
 .text-area{
     font-size: 1em;
     color: #677077;
@@ -319,3 +327,16 @@ nav a.selected, nav a:hover {
     font-size: 12px;
 }
 
+.approve-color {
+    background-color: #6ab47b;
+}
+.reject-color {
+    background-color: #677077;
+}
+
+.admin-team-display {
+    font-size: 0.75em;
+    display: inline-block;
+    padding: 0;
+    margin: 0 1.5% 2.5% 2.5% ;
+}

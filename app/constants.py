@@ -6,6 +6,7 @@ class sql_queries:
         self.SELECT_DEVELOPER="SELECT * FROM developers WHERE developers.uid=%s"
         self.SELECT_GAME="SELECT * FROM games WHERE games.gameid =%s"
         self.SELECT_GAME_FROM_TITLE="SELECT gameid FROM games WHERE games.title=%s"
+        self.SELECT_GAME_SUBMISSIONS="SELECT games.gameid, games.title, games.url FROM games, submit WHERE games.gameid = submit.gameid AND games.gameid NOT IN (SELECT gameid FROM evaluate)"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
@@ -26,6 +27,7 @@ class sql_queries:
         self.ADD_SYSREQS="INSERT INTO systemrequirements_has (gameid, os, processor, graphics) VALUES(%s, %s, %s, %s)"
         self.ADD_REVIEW="INSERT INTO review_rated (uid, gameid, posted_time, stars, commentary) VALUES(%s, %s, now(), %s, %s)"
         self.SUBMIT_GAME="INSERT INTO submit VALUES(%s, %s)"
+        self.APPROVE_GAME="INSERT INTO evaluate VALUES(%s, %s)"
 
 
 class messages:
