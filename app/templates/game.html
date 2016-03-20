@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block header %}
+    <nav>
+      <ul>
+        <li><a href="/">STORE</a></li>
+        {% if not permissions or permissions == "gamer" %}
+        <li><a href="/library/">LIBRARY</a></li>
+        {% elif permissions == "dev" %}
+        <li><a href="/submit/">SUBMIT GAME</a></li>
+        {% elif permissions == "admin" %}
+        <li><a href="/evaluate/">EVALUATE SUBMISSIONS</a></li>
+        {% endif %}
+        <li><a href="/rate/">WRITE REVIEWS</a></li>
+      </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+  <div id="wrapper">
+    <section>
+      <img src="{{game.url}}" class="banner" />
+        <h3 class="game-description">{{game.title}}</h3>
+        <h6>GENRE: {{game.genre}} | GAMEPLAY: {{game.gameplay}} | OS: {{game.os}} | PRICE: {{game.price}}</h6>
+        <h6 class="game-overview">{{game.description}}</h6>
+    </section>
+
+    <section>
+        <h4 class="game-reviews">REVIEWS</h4>
+        {% for review in reviews %}
+        <h6 class="review-rating">{{name}} rated this game {{review.stars}} out of 5:</h6>
+        <h6 class="review-commentary">{{review.commentary}}</h6>
+        {% endfor %}
+    </section>
+  </div>
+{% endblock %}

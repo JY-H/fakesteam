@@ -341,3 +341,37 @@ nav a.selected, nav a:hover {
     padding: 0;
     margin: 0 1.5% 2.5% 2.5% ;
 }
+
+/**********************************************
+ INDIVIDUAL GAME PAGES
+**********************************************/
+.banner {
+  float: left;
+  background-size: cover;
+  padding:1px;
+  border:1px solid #021a40;
+  margin: 0 2.5% 0 0;
+}
+
+.game-description {
+  color: #4478a0;
+}
+
+.game-overview {
+  font-weight: 500;
+}
+.game-reviews {
+  margin: 5% 0 0 0;
+  clear: left;
+  color: #4478a0;
+}
+
+.review-rating {
+  clear: left;
+  color: #4478a0;
+}
+
+.review-commentary {
+  font-weight: 500;
+  margin: 0;
+}
