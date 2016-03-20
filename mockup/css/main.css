@@ -127,6 +127,10 @@ footer {
   color: #b5b5b7;
 }
 
+#portfolio li input[type="image"] {
+ width: 100%;
+}
+
 
 
 /**********************************************

@@ -53,10 +53,11 @@
     </section>
     <!-- gallery section -->
     <section>
+      <form method="GET" action="/game/">
       {% for game in games %}
       <ul id="portfolio">
         <li>
-            <img src="{{game.url}}" alt="">
+            <input type="image" src="{{game.url}}" value="{{game.gameid}}" />
             <p>{{game.title}}</p>
         </li>
       </ul>

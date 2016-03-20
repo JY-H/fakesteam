@@ -151,6 +151,10 @@ def submit():
 
     return render_template('submit.html', name=user, permissions=permissions)
 
+@app.route('/game/', methods=['GET', 'POST'])
+def game():
+    return render_template('game.html')
+
 @app.route('/evaluate/', methods=['GET', 'POST'])
 def evaluate():
     uid, user, permissions = get_user_info()
