@@ -151,9 +151,39 @@ def submit():
 
     return render_template('submit.html', name=user, permissions=permissions)
 
-@app.route('/game/', methods=['GET', 'POST'])
+@app.route('/game/')
 def game():
-    return render_template('game.html')
+    game = {}
+    gameid = request.args.get('gameid')
+    print gameid
+    # no need to check whether gameid is valid since it was first retrieved
+    # from db
+    cursor = g.conn.execute(queries.SELECT_GAME, (gameid))
+    for result in cursor:
+        game['gameid'] = result['gameid']
+        game['description'] = result['description']
+        game['price'] = result['price']
+        game['genre'] = str(result['genre']).upper()
+        game['gameplay'] = str(result['gameplay']).upper()
+        game['title'] = result['title']
+        game['url'] = result['url']
+
+    reviews = []
+    cursor = g.conn.execute(queries.SELECT_REVIEWS, (gameid))
+    for result in cursor:
+        review = {}
+        uid = result['uid']
+        name = str(g.conn.execute(queries.GET_USER_NAME, (uid)).fetchone()[0])
+        review['name'] = name
+        review['stars'] = result['stars']
+        review['commentary'] = result['commentary']
+        reviews.append(review)
+
+    #TODO: SYSTEM REQUIREMENTS AND OS TO BE DISPLAYED ON THE GAME PAGE.
+    cursor = g.conn.execute(queries.GET_OS_FROM_GAME, (gameid))
+
+
+    return render_template('game.html', game=game, reviews=reviews)
 
 @app.route('/evaluate/', methods=['GET', 'POST'])
 def evaluate():

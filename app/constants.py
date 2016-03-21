@@ -7,10 +7,12 @@ class sql_queries:
         self.SELECT_GAME="SELECT * FROM games WHERE games.gameid =%s"
         self.SELECT_GAME_FROM_TITLE="SELECT gameid FROM games WHERE games.title=%s"
         self.SELECT_GAME_SUBMISSIONS="SELECT games.gameid, games.title, games.url FROM games, submit WHERE games.gameid = submit.gameid AND games.gameid NOT IN (SELECT gameid FROM evaluate)"
+        self.SELECT_REVIEWS="SELECT * FROM review_rated WHERE review_rated.gameid=%s"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
         self.GET_GAME_TITLE="SELECT title FROM games"
+        self.GET_OS_FROM_GAME="SELECT os FROM systemrequirements_has where gameid=%s"
         self.FILTER_OS="SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
         self.FILTER_GAMEPLAY="SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
         self.FILTER_GENRE="SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
