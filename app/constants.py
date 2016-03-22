@@ -12,7 +12,7 @@ class sql_queries:
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
         self.GET_GAME_TITLE="SELECT title FROM games"
-        self.GET_OS_FROM_GAME="SELECT os FROM systemrequirements_has where gameid=%s"
+        self.GET_SYSREQS_FROM_GAME="SELECT os, processor, graphics FROM systemrequirements_has WHERE gameid=%s"
         self.FILTER_OS="SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
         self.FILTER_GAMEPLAY="SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
         self.FILTER_GENRE="SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"

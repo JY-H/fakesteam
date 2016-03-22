@@ -10,16 +10,17 @@
 {% endblock %}
 {% block content %}
   <div id="wrapper">
-    <!-- gallery section -->
     <section>
+      <form method="GET" action="/game/">
       {% for game in games %}
       <ul id="portfolio">
         <li>
-            <img src="{{game.url}}" alt="">
+            <input type="image" src="{{game.url}}" name="gameid" value="{{game.gameid}}" />
             <p>{{game.title}}</p>
         </li>
       </ul>
-        {% endfor %}
+      {% endfor %}
+      </form>
     </section>
   </div>
 {% endblock %}

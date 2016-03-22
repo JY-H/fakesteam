@@ -155,7 +155,6 @@ def submit():
 def game():
     game = {}
     gameid = request.args.get('gameid')
-    print gameid
     # no need to check whether gameid is valid since it was first retrieved
     # from db
     cursor = g.conn.execute(queries.SELECT_GAME, (gameid))
@@ -179,11 +178,17 @@ def game():
         review['commentary'] = result['commentary']
         reviews.append(review)
 
-    #TODO: SYSTEM REQUIREMENTS AND OS TO BE DISPLAYED ON THE GAME PAGE.
-    cursor = g.conn.execute(queries.GET_OS_FROM_GAME, (gameid))
+    sysreqs = []
+    cursor = g.conn.execute(queries.GET_SYSREQS_FROM_GAME, (gameid))
+    for result in cursor:
+        req = {}
+        req['os'] = str(result['os']).upper()
+        req['processor'] = result['processor']
+        req['graphics'] = result['graphics']
+        sysreqs.append(req)
 
-
-    return render_template('game.html', game=game, reviews=reviews)
+    uid, user, permissions = get_user_info()
+    return render_template('game.html', game=game, reviews=reviews, sysreqs=sysreqs, name=user, permissions=permissions)
 
 @app.route('/evaluate/', methods=['GET', 'POST'])
 def evaluate():

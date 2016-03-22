@@ -353,7 +353,7 @@ nav a.selected, nav a:hover {
   background-size: cover;
   padding:1px;
   border:1px solid #021a40;
-  margin: 0 2.5% 0 0;
+  margin: 0 2.5% 1% 0;
 }
 
 .game-description {
@@ -361,6 +361,11 @@ nav a.selected, nav a:hover {
 }
 
 .game-overview {
+  font-weight: 500;
+}
+
+.game-reqs {
+  margin: 5px;
   font-weight: 500;
 }
 .game-reviews {
