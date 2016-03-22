@@ -26,6 +26,7 @@
         <h6 class="game-overview">{{game.description}}</h6>
     </section>
 
+    {% if permissions != 'admin' %}
     <section>
         <h4 class="game-reviews">REVIEWS</h4>
         {% for review in reviews %}
@@ -33,5 +34,6 @@
         <h6 class="review-commentary">{{review.commentary}}</h6>
         {% endfor %}
     </section>
+    {% endif %}
   </div>
 {% endblock %}
