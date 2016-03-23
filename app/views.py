@@ -266,6 +266,11 @@ def rate():
         stars = request.form['stars']
         review = str(request.form['review'])
 
+        stars = round(float(stars))
+        if stars < 0 or stars > 5:
+            flash(msgs.INVALID_RATING)
+            return render_template('rate.html', name=user, permissions=permissions)
+
         # if the title doesn't already exist.
         if is_unique(queries.SELECT_GAME_FROM_TITLE, title):
             flash(msgs.GAME_DNE)

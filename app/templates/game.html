@@ -47,7 +47,7 @@
         <h4 class="game-reviews">REVIEWS</h4>
         {% for review in reviews %}
         <h6 class="review-rating">{{review.name}} rated this game {{review.stars}} out of 5:</h6>
-        <h6 class="review-commentary">{{review.commentary}}</h6>
+        <pre class="review-commentary">{{review.commentary}}</pre>
         {% endfor %}
     </section>
     {% endif %}

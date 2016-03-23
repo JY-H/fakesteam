@@ -32,8 +32,8 @@
 #### Misc
 * Error handling. 
     * Should users be allowed to review games that they do not own? (Dropdown menu for game titles on the reviews page, and only display review page for gamers?)
-    * check stars less than 5.
-    * parse review commentary such that new line renders.
+    * ~~check stars less than 5.~~
+    * ~~parse review commentary such that new line renders.~~
 
 ## DB CHANGE LOG:
 * libraryid is now autoincrement

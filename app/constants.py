@@ -51,6 +51,7 @@ class messages:
         self.GAME_DNE="The game you entered does not exist! Please try again."
         self.PURCHASE_DENIED="You cannot purchase games as a developer, please register for a gamer ID."
         self.LOGIN_BEFORE_PURCHASE="Please login before purchase."
+        self.INVALID_RATING="Your rating must be out of 5."
 
         # SUCCESS
         self.SUCCESSFUL="Success!"
