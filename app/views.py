@@ -262,7 +262,7 @@ def rate():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        title = str(request.form['title']).upper()
+        gameid = request.form['gameid']
         stars = request.form['stars']
         review = str(request.form['review'])
 
@@ -271,21 +271,22 @@ def rate():
             flash(msgs.INVALID_RATING)
             return render_template('rate.html', name=user, permissions=permissions)
 
-        # if the title doesn't already exist.
-        if is_unique(queries.SELECT_GAME_FROM_TITLE, title):
-            flash(msgs.GAME_DNE)
-            return render_template('rate.html', name=user, permissions=permissions)
-
-        cursor = g.conn.execute(queries.SELECT_GAME_FROM_TITLE, title)
-        gameid = int(cursor.fetchone().gameid)
-
         # add review for game
         g.conn.execute(queries.ADD_REVIEW, (uid, gameid, stars, review))
-        cursor.close()
         flash(msgs.SUCCESSFUL)
         return render_template('rate.html', name=user, permissions=permissions)
 
-    return render_template('rate.html', name=user, permissions=permissions)
+    # retrieve games that the user owns
+    cursor = g.conn.execute(queries.GAMER_LIBRARY, (uid))
+    games = []
+    for result in cursor:
+        game = {}
+        game['gameid'] = result['gameid']
+        game['title'] = result['title']
+        games.append(game)
+    cursor.close()
+
+    return render_template('rate.html', name=user, permissions=permissions, games=games)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():

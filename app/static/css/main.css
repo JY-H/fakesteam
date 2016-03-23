@@ -304,6 +304,10 @@ nav a.selected, nav a:hover {
     outline: none;
 }
 
+.wider-select {
+    width: 200px;
+}
+
 /**********************************************
  FORMS-RELATED CSS
 **********************************************/
@@ -380,6 +384,11 @@ nav a.selected, nav a:hover {
 .review-rating {
   clear: left;
   color: #4478a0;
+}
+
+.rating-title {
+  margin: 2%;
+  color: #677077;
 }
 
 .review-commentary {

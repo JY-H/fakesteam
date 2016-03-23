@@ -3,13 +3,7 @@
     <nav>
       <ul>
         <li><a href="/">STORE</a></li>
-        {% if not permissions or permissions == "gamer" %}
         <li><a href="/library/">LIBRARY</a></li>
-        {% elif permissions == "dev" %}
-        <li><a href="/submit/">SUBMIT GAME</a></li>
-        {% elif permissions == "admin" %}
-        <li><a href="/evaluate/">EVALUATE SUBMISSIONS</a></li>
-        {% endif %}
         <li><a href="/rate/" class="selected">WRITE REVIEWS</a></li>
       </ul>
     </nav>
@@ -27,7 +21,15 @@
        {% endif %}
        {% endwith %}
       <form method="post" action="/rate/">
-          <input type="text" name="title" placeholder="Title of the Game" required="required" class="input-txt" />
+          <h4 class="rating-title">GAME TITLE:
+          <div class="select-style wider-select">
+              <select name="gameid">
+                  {% for game in games %}
+                  <option value="{{game.gameid}}">{{game.title}}</option>
+                  {% endfor %}
+              </select>
+          </div>
+              </h4>
           <input type="number" name="stars" placeholder="Rating out of 5" required="required" class="input-txt" />
           <textarea name="review" rows="4" cols="50" required="required" class="text-area"> REVIEW HERE...</textarea>
           <div class="login-footer">
