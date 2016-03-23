@@ -5,13 +5,12 @@
         <li><a href="/">STORE</a></li>
         {% if not permissions or permissions == "gamer" %}
         <li><a href="/library/">LIBRARY</a></li>
+        <li><a href="/rate/">WRITE REVIEWS</a></li>
         {% elif permissions == "dev" %}
         <li><a href="/submit/">SUBMIT GAME</a></li>
         {% elif permissions == "admin" %}
         <li><a href="/evaluate/">EVALUATE SUBMISSIONS</a></li>
-        {% endif %}
-        <li><a href="/rate/">WRITE REVIEWS</a></li>
-      </ul>
+        {% endif %}</ul>
     </nav>
 {% endblock %}
 {% block content %}
