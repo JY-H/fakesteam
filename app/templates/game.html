@@ -16,26 +16,21 @@
 {% endblock %}
 {% block content %}
   <div id="wrapper">
-      {% with messages = get_flashed_messages() %}
-       {% if messages %}
-       <p class="register-login-link no-top-margin">
-           {% for message in messages %}
-           {{ message }}
-           {% endfor %}
-       </p>
-       {% endif %}
-       {% endwith %}
     <section>
-        {% if permissions == 'admin' and not game.is_reviewed %}
-        <form method="POST" action="/evaluate/">
-            <button type="submit" name="approve" class="submit-btn btn--right approve-color">APPROVE  </button>
-            <button type="submit" name="reject" class="submit-btn btn--right reject-color">REJECT  </button>
-        </form>
+        {% if permissions == 'admin' %}
+            {% if not game.is_reviewed %}
+            <form method="POST" action="/evaluate/">
+                <button type="submit" name="approve" class="submit-btn btn--right approve-color">APPROVE  </button>
+                <button type="submit" name="reject" class="submit-btn btn--right reject-color">REJECT  </button>
+            </form>
+            {% endif %}
         {% elif game.in_library %}
         <button type="button" disabled class="submit-btn btn--right approve-color">OWNED  </button>
+        {% elif permissions == 'dev' %}
+        <button type="button" disabled class="submit-btn btn--right reject-color">PURCHASE DISALLOWED FOR DEVELOPERS</button>
         {% else %}
         <form method="post" action="/buy/">
-            <button type="submit" name="{{game.gameid}}" class="submit-btn btn--right approve-color">BUY  </button>
+            <button type="submit" name="gameid" value="{{game.gameid}}" class="submit-btn btn--right approve-color">BUY  </button>
         </form>
         {% endif %}
       <img src="{{game.url}}" class="banner" />

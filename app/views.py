@@ -205,6 +205,24 @@ def game():
 
     return render_template('game.html', game=game, reviews=reviews, sysreqs=sysreqs, name=user, permissions=permissions)
 
+@app.route('/buy/', methods=['GET', 'POST'])
+def buy():
+    uid, user, permissions = get_user_info()
+    if not uid:
+        flash(msgs.LOGIN_BEFORE_PURCHASE)
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        gameid = request.form['gameid']
+        g.conn.execute(queries.BUY_GAME, (uid, gameid))
+        cursor = g.conn.execute(queries.GET_GAMER_LIBRARY, (uid))
+        libraryid = cursor.fetchone().values()[0]
+        g.conn.execute(queries.ADD_GAME_TO_LIBRARY, (gameid, libraryid))
+
+        return redirect(url_for('library'))
+
+    return redirect(url_for('index'))
+
 @app.route('/evaluate/', methods=['GET', 'POST'])
 def evaluate():
     uid, user, permissions = get_user_info()

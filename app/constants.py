@@ -12,6 +12,7 @@ class sql_queries:
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
         self.GET_GAME_TITLE="SELECT title FROM games"
+        self.GET_GAMER_LIBRARY="SELECT libraryid FROM library_owned WHERE library_owned.uid=%s"
         self.GET_SYSREQS_FROM_GAME="SELECT os, processor, graphics FROM systemrequirements_has WHERE gameid=%s"
         self.FILTER_OS="SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
         self.FILTER_GAMEPLAY="SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
@@ -33,6 +34,8 @@ class sql_queries:
         self.ADD_REVIEW="INSERT INTO review_rated (uid, gameid, posted_time, stars, commentary) VALUES(%s, %s, now(), %s, %s)"
         self.SUBMIT_GAME="INSERT INTO submit VALUES(%s, %s)"
         self.APPROVE_GAME="INSERT INTO evaluate VALUES(%s, %s)"
+        self.BUY_GAME="INSERT INTO buy VALUES(%s, %s)"
+        self.ADD_GAME_TO_LIBRARY="INSERT INTO contains VALUES(%s, %s)"
 
 
 class messages:
@@ -45,6 +48,8 @@ class messages:
         self.NEGATIVE_PRICE="Price cannot be negative."
         self.NEGATIVE_EXP="Your experience cannot be negative."
         self.GAME_DNE="The game you entered does not exit! Please try again"
+        self.PURCHASE_DENIED="You cannot purchase games as a developer, please register for a gamer ID."
+        self.LOGIN_BEFORE_PURCHASE="Please login before purchase."
 
         # SUCCESS
         self.SUCCESSFUL="Success!"
