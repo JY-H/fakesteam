@@ -112,7 +112,7 @@ def submit():
         url = request.form['url']
 
         # check price at least 0
-        if int(price) < 0:
+        if float(price) < 0:
             flash(msgs.NEGATIVE_PRICE)
             return render_template('submit.html', name=user, permissions=permissions)
 
@@ -227,13 +227,13 @@ def buy():
 def evaluate():
     uid, user, permissions = get_user_info()
 
-    if request.method='POST':
-        if request.form['approve']:
+    if request.method=='POST':
+        if request.form.has_key('approve'):
             gameid = request.form['approve']
             g.conn.execute(queries.APPROVE_GAME, (uid, gameid))
             flash(msgs.SUCCESSFUL_APPROVAL)
             return redirect(url_for('evaluate'))
-        elif request.form['reject']:
+        elif request.form.has_key('reject'):
             gameid = request.form['reject']
             g.conn.execute(queries.REJECT_GAME, (gameid))
             flash(msgs.SUCCESSFUL_REJECTION)
