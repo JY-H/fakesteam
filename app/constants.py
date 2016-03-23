@@ -20,6 +20,9 @@ class sql_queries:
         self.DISPLAY_STORE="SELECT gameid, title, url FROM games WHERE gameid IN (SELECT gameid FROM evaluate)"
         self.GAMER_LIBRARY="SELECT contains.gameid, games.title, games.url FROM library_owned, contains, games WHERE library_owned.uid =%s AND library_owned.libraryid = contains.libraryid AND contains.gameid IN (SELECT gameid FROM evaluate) AND contains.gameid = games.gameid"
 
+        self.IN_USER_LIBRARY="SELECT * FROM buy WHERE buy.gameid=%s AND buy.uid=%s"
+        self.IS_REVIEWED="SELECT * FROM evaluate WHERE evaluate.gameid=%s"
+
         # MUTATORS
         self.ADD_USER="INSERT INTO users VALUES(%s, %s)"
         self.ADD_GAMER="INSERT INTO gamers VALUES(%s, %s)"

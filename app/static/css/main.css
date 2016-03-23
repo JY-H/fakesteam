@@ -246,6 +246,9 @@ nav a.selected, nav a:hover {
   padding: 15px 10px;
 }
 
+.no-top-margin {
+  margin: 0 0 2.5% 0;
+}
 
 .login-footer {
   margin: 10px 0;

@@ -89,6 +89,8 @@ def library():
             game['url'] = result['url']
             owned_games.append(game)
         cursor.close()
+    else:
+        return redirect(url_for('login'))
 
     return render_template('library.html', games=owned_games, name=user, permissions=permissions)
 
@@ -153,6 +155,8 @@ def submit():
 
 @app.route('/game/')
 def game():
+    uid, user, permissions = get_user_info()
+
     game = {}
     gameid = request.args.get('gameid')
     # no need to check whether gameid is valid since it was first retrieved
@@ -164,8 +168,20 @@ def game():
         game['price'] = result['price']
         game['genre'] = str(result['genre']).upper()
         game['gameplay'] = str(result['gameplay']).upper()
+        if game['gameplay'] == 'BOTH':
+            game['gameplay'] = 'SINGLE AND MULTIPLAYER'
         game['title'] = result['title']
         game['url'] = result['url']
+
+    # check wheter the game is already owned by the user
+    if permissions == 'gamer':
+        cursor = g.conn.execute(queries.IN_USER_LIBRARY, (gameid, uid))
+        if cursor.rowcount > 0:
+            game['in_library'] = True
+    elif permissions == 'admin':
+        cursor = g.conn.execute(queries.IS_REVIEWED, (gameid))
+        if cursor.rowcount > 0:
+            game['is_reviewed'] = True
 
     reviews = []
     cursor = g.conn.execute(queries.SELECT_REVIEWS, (gameid))
@@ -187,7 +203,6 @@ def game():
         req['graphics'] = result['graphics']
         sysreqs.append(req)
 
-    uid, user, permissions = get_user_info()
     return render_template('game.html', game=game, reviews=reviews, sysreqs=sysreqs, name=user, permissions=permissions)
 
 @app.route('/evaluate/', methods=['GET', 'POST'])
