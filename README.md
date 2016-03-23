@@ -24,7 +24,7 @@
 * ~~Set up a single page for Games where all its information is displayed. Generate dynamically.~~ 
 * ~~Purchase button that redirects to login if not currently logged in, and adds the game to the gamer's library otherwise.~~
     * ~~Purchase should only be allowed for gamers and for games that have been approved.~~
-* Approve, reject buttons that add game to the store / delete game if the user permission is admin. 
+* ~~Approve, reject buttons that add game to the store / delete game if the user permission is admin.~~
 
 #### Community
 * ~~Set up a community page where gamers, admins, developers can post reviews for a specific game.~~ 
