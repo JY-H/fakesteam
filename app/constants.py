@@ -48,7 +48,7 @@ class messages:
         self.INVALID_LOGIN="Invalid Login. Please try again."
         self.NEGATIVE_PRICE="Price cannot be negative."
         self.NEGATIVE_EXP="Your experience cannot be negative."
-        self.GAME_DNE="The game you entered does not exit! Please try again"
+        self.GAME_DNE="The game you entered does not exist! Please try again."
         self.PURCHASE_DENIED="You cannot purchase games as a developer, please register for a gamer ID."
         self.LOGIN_BEFORE_PURCHASE="Please login before purchase."
 
