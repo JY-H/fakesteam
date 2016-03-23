@@ -227,6 +227,18 @@ def buy():
 def evaluate():
     uid, user, permissions = get_user_info()
 
+    if request.method='POST':
+        if request.form['approve']:
+            gameid = request.form['approve']
+            g.conn.execute(queries.APPROVE_GAME, (uid, gameid))
+            flash(msgs.SUCCESSFUL_APPROVAL)
+            return redirect(url_for('evaluate'))
+        elif request.form['reject']:
+            gameid = request.form['reject']
+            g.conn.execute(queries.REJECT_GAME, (gameid))
+            flash(msgs.SUCCESSFUL_REJECTION)
+            return redirect(url_for('evaluate'))
+
     cursor = g.conn.execute(queries.SELECT_GAME_SUBMISSIONS)
     games = []
     for result in cursor:
