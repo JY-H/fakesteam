@@ -20,8 +20,8 @@
         {% if permissions == 'admin' %}
             {% if not game.is_reviewed %}
             <form method="POST" action="/evaluate/">
-                <button type="submit" name="approve" class="submit-btn btn--right approve-color">APPROVE  </button>
-                <button type="submit" name="reject" class="submit-btn btn--right reject-color">REJECT  </button>
+            <button type="submit" name="approve" value={{game.gameid}} class="submit-btn btn--right approve-color">APPROVE  </button>
+            <button type="submit" name="reject" value={{game.gameid}} class="submit-btn btn--right reject-color">REJECT  </button>
             </form>
             {% endif %}
         {% elif game.in_library %}

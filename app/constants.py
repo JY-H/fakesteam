@@ -36,6 +36,7 @@ class sql_queries:
         self.APPROVE_GAME="INSERT INTO evaluate VALUES(%s, %s)"
         self.BUY_GAME="INSERT INTO buy VALUES(%s, %s)"
         self.ADD_GAME_TO_LIBRARY="INSERT INTO contains VALUES(%s, %s)"
+        self.REJECT_GAME="DELETE FROM games WHERE gameid =%s"
 
 
 class messages:
@@ -54,3 +55,5 @@ class messages:
         # SUCCESS
         self.SUCCESSFUL="Success!"
         self.SUCCESSFUL_GAME_SUBMISSION="Success! Your game will be added to the store when approved."
+        self.SUCCESSFUL_APPROVAL="Success! Game approved."
+        self.SUCCESSFUL_REJECTION="Success! Game rejected."
