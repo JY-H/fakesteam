@@ -412,12 +412,12 @@ def register_dev():
         # check valid exp
         if int(yrs_dev) < 0:
             flash(msgs.NEGATIVE_EXP)
-            return render_template('register_gamer.html')
+            return render_template('register_dev.html')
 
         # check uid valid
         if not is_valid(uid):
             flash(msgs.BAD_ID)
-            return render_template('register_gamer.html')
+            return render_template('register_dev.html')
         cmd = "SELECT * FROM users WHERE users.uid =%s"
         cursor = g.conn.execute(cmd, (uid))
 
