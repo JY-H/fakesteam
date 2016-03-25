@@ -16,7 +16,7 @@
     * ~~gamers can view games owned.~~
     * ~~developers can submit new games, which cannot yet be viewed by gamers.~~
     * ~~admins can view games submitted by developers.~~
-* Filter games on the evaluation page according to the admin's assigned team. (opt.)
+* ~~Filter games on the evaluation page according to the admin's assigned team. (opt.)~~
 
 #### Games
 * ~~Store page; views all available games.~~
@@ -30,7 +30,7 @@
 * ~~Set up a community page where gamers, admins, developers can post reviews for a specific game.~~ 
 
 #### Misc
-* Error handling. 
+* ~~Error handling. ~~
     * ~~Should users be allowed to review games that they do not own? (Dropdown menu for game titles on the reviews page/delete existing nonvalid entries, ~~and only display review page for gamers?~~)
     * ~~check stars less than 5.~~
     * ~~parse review commentary such that new line renders.~~

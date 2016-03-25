@@ -251,7 +251,7 @@ def evaluate():
         game['title'] = result['title']
         game['url'] = result['url']
         gameplay = result['gameplay']
-        if gameplay == team || gameplay == 'both':
+        if gameplay == team or gameplay == 'both':
             games.append(game)
     cursor.close()
     return render_template('evaluate.html', games=games, name=user, permissions=permissions)
