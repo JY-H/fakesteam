@@ -239,6 +239,10 @@ def evaluate():
             flash(msgs.SUCCESSFUL_REJECTION)
             return redirect(url_for('evaluate'))
 
+    cursor = g.conn.execute(queries.GET_ADMIN_TEAM, (uid))
+    row = cursor.fetchone()
+    team = row['team']
+    
     cursor = g.conn.execute(queries.SELECT_GAME_SUBMISSIONS)
     games = []
     for result in cursor:
@@ -246,7 +250,9 @@ def evaluate():
         game['gameid'] = result['gameid']
         game['title'] = result['title']
         game['url'] = result['url']
-        games.append(game)
+        gameplay = result['gameplay']
+        if gameplay == team || gameplay == 'both':
+            games.append(game)
     cursor.close()
     return render_template('evaluate.html', games=games, name=user, permissions=permissions)
 

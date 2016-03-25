@@ -6,7 +6,7 @@ class sql_queries:
         self.SELECT_DEVELOPER="SELECT * FROM developers WHERE developers.uid=%s"
         self.SELECT_GAME="SELECT * FROM games WHERE games.gameid =%s"
         self.SELECT_GAME_FROM_TITLE="SELECT gameid FROM games WHERE games.title=%s"
-        self.SELECT_GAME_SUBMISSIONS="SELECT games.gameid, games.title, games.url FROM games, submit WHERE games.gameid = submit.gameid AND games.gameid NOT IN (SELECT gameid FROM evaluate)"
+        self.SELECT_GAME_SUBMISSIONS="SELECT games.gameid, games.title, games.url, games.gameplay FROM games, submit WHERE games.gameid = submit.gameid AND games.gameid NOT IN (SELECT gameid FROM evaluate)"
         self.SELECT_REVIEWS="SELECT * FROM review_rated WHERE review_rated.gameid=%s"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
@@ -17,6 +17,7 @@ class sql_queries:
         self.FILTER_OS="SELECT evaluate.gameid FROM evaluate except (SELECT evaluate.gameid FROM evaluate, systemrequirements_has WHERE evaluate.gameid = systemrequirements_has.gameid AND systemrequirements_has.OS=%s)"
         self.FILTER_GAMEPLAY="SELECT games.gameid FROM games WHERE games.gameplay !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
         self.FILTER_GENRE="SELECT games.gameid FROM games WHERE games.genre !=%s AND games.gameid IN (SELECT gameid FROM evaluate)"
+        self.GET_ADMIN_TEAM="SELECT team FROM admins WHERE uid=%s"
 
         self.DISPLAY_STORE="SELECT gameid, title, url FROM games WHERE gameid IN (SELECT gameid FROM evaluate)"
         self.GAMER_LIBRARY="SELECT contains.gameid, games.title, games.url FROM library_owned, contains, games WHERE library_owned.uid =%s AND library_owned.libraryid = contains.libraryid AND contains.gameid IN (SELECT gameid FROM evaluate) AND contains.gameid = games.gameid"
