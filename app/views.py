@@ -44,6 +44,7 @@ def index():
     Function for retrieving info and displaying the store page.
     :return:
     """
+    # Getting all the games in the store
     cursor = g.conn.execute(queries.DISPLAY_STORE)
     games = []
     for result in cursor:
@@ -55,12 +56,14 @@ def index():
     cursor.close()
 
     filtered_games = []
-    # apply filter
+    # apply filters, which ironically are composed of games that do NOT match the filter
     filtered_os = list(request.args.getlist('filtered_os'))
     filtered_gameplay = list(request.args.getlist('filtered_gameplay'))
     filtered_genre = list(request.args.getlist('filtered_genre'))
+    # thus excluded is the sum of the games that do not match the filter
     excluded = filtered_os + filtered_gameplay + filtered_genre
 
+    # traverse all the games and only display ones not in the ecluded list
     for i in range(len(games)):
         gameid = games[i].get('gameid')
         if unicode(gameid) not in excluded:
@@ -80,7 +83,7 @@ def library():
     uid, user, permissions = get_user_info()
 
     if uid:
-        # get player owned games:
+        # get games owned by player
         cursor = g.conn.execute(queries.GAMER_LIBRARY, (uid))
         for result in cursor:
             game = {}
@@ -89,7 +92,7 @@ def library():
             game['url'] = result['url']
             owned_games.append(game)
         cursor.close()
-    else:
+    else: # no uid, meaning not logged in, so rredirect
         return redirect(url_for('login'))
 
     return render_template('library.html', games=owned_games, name=user, permissions=permissions)
@@ -103,6 +106,7 @@ def submit():
     uid, user, permissions = get_user_info()
     if request.method == 'POST':
         uid = session['uid']
+        # get game attributes from form's textboxes
         gameid = request.form['gameid']
         price = request.form['price']
         title = str(request.form['title']).upper()
@@ -129,7 +133,7 @@ def submit():
         # add game
         g.conn.execute(queries.ADD_GAME, (gameid, title, description, genre, gameplay, price, url))
 
-        # add system requirements
+        # add system requirements based on user input
         processor = request.form['windows-processor']
         graphics = request.form['windows-graphics']
         g.conn.execute(queries.ADD_SYSREQS, (gameid, 'windows', processor, graphics))
@@ -150,7 +154,7 @@ def submit():
         flash(msgs.SUCCESSFUL_GAME_SUBMISSION)
         return render_template('submit.html', name=user, permissions=permissions)
 
-
+    # for a GET request, just show blank submission page
     return render_template('submit.html', name=user, permissions=permissions)
 
 @app.route('/game/')
@@ -159,8 +163,7 @@ def game():
 
     game = {}
     gameid = request.args.get('gameid')
-    # no need to check whether gameid is valid since it was first retrieved
-    # from db
+    # no need to check whether gameid is valid since it was first retrieved from db
     cursor = g.conn.execute(queries.SELECT_GAME, (gameid))
     for result in cursor:
         game['gameid'] = result['gameid']
@@ -168,21 +171,24 @@ def game():
         game['price'] = result['price']
         game['genre'] = str(result['genre']).upper()
         game['gameplay'] = str(result['gameplay']).upper()
+        # if the game can be single and multiplayer, update string literal
         if game['gameplay'] == 'BOTH':
             game['gameplay'] = 'SINGLE AND MULTIPLAYER'
         game['title'] = result['title']
         game['url'] = result['url']
 
-    # check wheter the game is already owned by the user
+    # check whether the game is already owned by the user
     if permissions == 'gamer':
         cursor = g.conn.execute(queries.IN_USER_LIBRARY, (gameid, uid))
         if cursor.rowcount > 0:
             game['in_library'] = True
+    # check if the game has already been reviewed by admins
     elif permissions == 'admin':
         cursor = g.conn.execute(queries.IS_REVIEWED, (gameid))
         if cursor.rowcount > 0:
             game['is_reviewed'] = True
 
+    # display game reviews
     reviews = []
     cursor = g.conn.execute(queries.SELECT_REVIEWS, (gameid))
     for result in cursor:
@@ -194,6 +200,7 @@ def game():
         review['commentary'] = result['commentary']
         reviews.append(review)
 
+    # display system requirements for the game
     sysreqs = []
     cursor = g.conn.execute(queries.GET_SYSREQS_FROM_GAME, (gameid))
     for result in cursor:
@@ -208,6 +215,7 @@ def game():
 @app.route('/buy/', methods=['GET', 'POST'])
 def buy():
     uid, user, permissions = get_user_info()
+
     if not uid:
         flash(msgs.LOGIN_BEFORE_PURCHASE)
         return redirect(url_for('login'))
@@ -228,6 +236,7 @@ def evaluate():
     uid, user, permissions = get_user_info()
 
     if request.method=='POST':
+        # add the game to the evaluated list if approved, otherwise delete submission
         if request.form.has_key('approve'):
             gameid = request.form['approve']
             g.conn.execute(queries.APPROVE_GAME, (uid, gameid))
@@ -239,10 +248,12 @@ def evaluate():
             flash(msgs.SUCCESSFUL_REJECTION)
             return redirect(url_for('evaluate'))
 
+    # determining the admin's team, which corresponds to game's gameplay
     cursor = g.conn.execute(queries.GET_ADMIN_TEAM, (uid))
     row = cursor.fetchone()
     team = row['team']
     
+    # only letting admin see games that fall under team's jurisdiction
     cursor = g.conn.execute(queries.SELECT_GAME_SUBMISSIONS)
     games = []
     for result in cursor:
@@ -268,10 +279,12 @@ def rate():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
+        # getting input from form
         gameid = request.form['gameid']
         stars = request.form['stars']
         review = str(request.form['review'])
 
+        # checking for valid star rating
         stars = round(float(stars))
         if stars < 0 or stars > 5:
             flash(msgs.INVALID_RATING)
@@ -373,13 +386,13 @@ def register_gamer():
         g.conn.execute(queries.ADD_USER, (uid, name))
         g.conn.execute(queries.ADD_GAMER, (uid, username))
 
-        # generate empty library
+        # generate empty library for gamer
         g.conn.execute(queries.ADD_LIBRARY, (uid))
 
         set_session_info(uid, name, 'gamer')
 
         return redirect(url_for('index'))
-
+    # if GET request, then show blank form
     return render_template('register_gamer.html')
 
 
@@ -419,7 +432,7 @@ def register_dev():
 
         set_session_info(uid, name, 'dev')
         return redirect(url_for('index'))
-
+    # if GET request, then show blank form
     return render_template('register_dev.html')
 
 
