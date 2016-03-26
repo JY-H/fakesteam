@@ -43,7 +43,7 @@
             </div>
           </section>
           <input type="number" name="gameid" placeholder="Pick a Game ID" required="required" class="input-txt less-padding" />
-          <input type="number" step="0.01" name="price" placeholder="Price of Your Game" required="required" class="input-txt less-padding" />
+          <input type="number" step="0.01" name="price" placeholder="Price of Your Game" required="required" class="input-txt less-padding" min="0" />
           <input type="text" name="title" placeholder="Title of Your Game" required="required" class="input-txt less-padding" />
           <input type="text" name="url" placeholder="URL of Game Banner" required="required" class="input-txt less-padding" />
           <input type="text" name="windows-processor" placeholder="Processor Requirements for windows" required="required" class="input-txt less-padding" />
@@ -52,7 +52,7 @@
           <input type="text" name="mac-graphics" placeholder="Graphics Requirements for mac if applicable" class="input-txt less-padding" />
           <input type="text" name="linux-processor" placeholder="Processor Requirements for linux if applicable" class="input-txt less-padding" />
           <input type="text" name="linux-graphics" placeholder="Graphics Requirements for linux if applicable" class="input-txt less-padding" />
-          <textarea name="description" rows="4" cols="50" class="text-area"> DESCRIPTION HERE...</textarea>
+          <textarea name="description" rows="4" cols="50" class="text-area" placeholder="DESCRIPTION HERE..."/>
           <div class="login-footer">
             <button type="submit" class="submit-btn btn--right">Submit  </button>
           </div>
