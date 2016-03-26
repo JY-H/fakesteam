@@ -326,6 +326,7 @@ def login():
         	# check if password matches
         	cursor = g.conn.execute(queries.GET_PASSWORD, (uid))
         	correctpassword = cursor.fetchone()
+        	cursor.close()
         	if (password == correctpassword):
 	            cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
 	            name = cursor.fetchone()
@@ -350,7 +351,7 @@ def login():
 	        else:
 	        	flash(msgs.INVALID_LOGIN)
 	        	return render_template('login.html')
-	        	
+
 	# for a GET request, just display blank login form
     return render_template('login.html')
 
@@ -376,6 +377,7 @@ def register_gamer():
         uid = request.form['uid']
         username = request.form['username']
         name = request.form['name']
+        password = request.form['password']
 
         # check uid valid
         if not is_valid(uid):
@@ -392,7 +394,7 @@ def register_gamer():
             flash(msgs.REDUNDANT_USERNAME)
             return render_template('register_gamer.html')
 
-        g.conn.execute(queries.ADD_USER, (uid, name))
+        g.conn.execute(queries.ADD_USER, (uid, name, password))
         g.conn.execute(queries.ADD_GAMER, (uid, username))
 
         # generate empty library for gamer
@@ -417,6 +419,7 @@ def register_dev():
         uid = request.form['uid']
         name = request.form['name']
         yrs_dev = request.form['exp_dev']
+        password = request.form['password']
 
         # check valid exp
         if int(yrs_dev) < 0:
@@ -435,7 +438,7 @@ def register_dev():
             flash(msgs.REDUNDANT_ID)
             return render_template('register_dev.html')
         else:
-            g.conn.execute(queries.ADD_USER, (uid, name))
+            g.conn.execute(queries.ADD_USER, (uid, name, password))
             g.conn.execute(queries.ADD_DEVELOPER, (uid, yrs_dev))
         cursor.close()
 

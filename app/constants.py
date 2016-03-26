@@ -27,7 +27,7 @@ class sql_queries:
         self.IS_REVIEWED="SELECT * FROM evaluate WHERE evaluate.gameid=%s"
 
         # MUTATORS
-        self.ADD_USER="INSERT INTO users VALUES(%s, %s)"
+        self.ADD_USER="INSERT INTO users VALUES(%s, %s, %s)"
         self.ADD_GAMER="INSERT INTO gamers VALUES(%s, %s)"
         self.ADD_DEVELOPER="INSERT INTO developers VALUES(%s, %s)"
         self.ADD_LIBRARY="INSERT INTO library_owned VALUES(%s)"
