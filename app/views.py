@@ -315,34 +315,43 @@ def login():
     """
     if request.method == 'POST':
         uid = request.form['uid']
+        password = request.form['password']
         cursor = g.conn.execute(queries.SELECT_USER, (uid))
 
         if cursor.rowcount <= 0:
-            flash(msgs.INVALID_LOGIN)
+            flash(msgs.INVALID_USER)
             cursor.close()
             return render_template('login.html')
         else:
-            cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
-            name = cursor.fetchone()
+        	# check if password matches
+        	cursor = g.conn.execute(queries.GET_PASSWORD, (uid))
+        	correctpassword = cursor.fetchone()
+        	if (password == correctpassword):
+	            cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
+	            name = cursor.fetchone()
 
-            # check if user is developer, gamer, or admin
-            # have to be either of the three.
-            cursor = g.conn.execute(queries.SELECT_GAMER, (uid))
-            # gamer
-            if cursor.rowcount > 0:
-                set_session_info(uid, str(name.name), 'gamer')
-            else:
-                # developer
-                cursor = g.conn.execute(queries.SELECT_DEVELOPER, (uid))
-                if cursor.rowcount > 0:
-                    set_session_info(uid, str(name.name), 'dev')
-                # admin
-                else:
-                    set_session_info(uid, str(name.name), 'admin')
+	            # check if user is developer, gamer, or admin
+	            # have to be either of the three.
+	            cursor = g.conn.execute(queries.SELECT_GAMER, (uid))
+	            # gamer
+	            if cursor.rowcount > 0:
+	                set_session_info(uid, str(name.name), 'gamer')
+	            else:
+	                # developer
+	                cursor = g.conn.execute(queries.SELECT_DEVELOPER, (uid))
+	                if cursor.rowcount > 0:
+	                    set_session_info(uid, str(name.name), 'dev')
+	                # admin
+	                else:
+	                    set_session_info(uid, str(name.name), 'admin')
 
-            cursor.close()
-            return redirect(url_for('index'))
-
+	            cursor.close()
+	            return redirect(url_for('index'))
+	        else:
+	        	flash(msgs.INVALID_LOGIN)
+	        	return render_template('login.html')
+	        	
+	# for a GET request, just display blank login form
     return render_template('login.html')
 
 @app.route('/logout/')
