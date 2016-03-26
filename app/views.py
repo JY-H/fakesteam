@@ -316,7 +316,7 @@ def login():
     """
     if request.method == 'POST':
         uid = request.form['uid']
-        password = generate_password_hash(request.form['password'])
+        password = (request.form['password']
         cursor = g.conn.execute(queries.SELECT_USER, (uid))
 
         if cursor.rowcount <= 0:
@@ -328,7 +328,7 @@ def login():
         	cursor = g.conn.execute(queries.GET_PASSWORD, (uid))
         	correctpassword = cursor.fetchone()
         	cursor.close()
-        	if (password == correctpassword):
+        	if (check_password_hash(correctpassword, password)):
 	            cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
 	            name = cursor.fetchone()
 
