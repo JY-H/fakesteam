@@ -10,6 +10,7 @@ class sql_queries:
         self.SELECT_REVIEWS="SELECT * FROM review_rated WHERE review_rated.gameid=%s"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
+        self.GET_PASSWORD="SELECT password FROM users WHERE users.uid=%s"
         self.GET_GAMER_USERNAME="SELECT * FROM gamers WHERE gamers.username=%s"
         self.GET_GAME_TITLE="SELECT title FROM games"
         self.GET_GAMER_LIBRARY="SELECT libraryid FROM library_owned WHERE library_owned.uid=%s"
@@ -26,7 +27,7 @@ class sql_queries:
         self.IS_REVIEWED="SELECT * FROM evaluate WHERE evaluate.gameid=%s"
 
         # MUTATORS
-        self.ADD_USER="INSERT INTO users VALUES(%s, %s)"
+        self.ADD_USER="INSERT INTO users VALUES(%s, %s, %s)"
         self.ADD_GAMER="INSERT INTO gamers VALUES(%s, %s)"
         self.ADD_DEVELOPER="INSERT INTO developers VALUES(%s, %s)"
         self.ADD_LIBRARY="INSERT INTO library_owned VALUES(%s)"
@@ -46,7 +47,8 @@ class messages:
         self.BAD_ID="The ID you entered is invalid! It's either too large or negative."
         self.REDUNDANT_ID="That ID is already taken! Choose another one."
         self.REDUNDANT_USERNAME="That username is already taken! Choose another one."
-        self.INVALID_LOGIN="Invalid Login. Please try again."
+        self.INVALID_USER="No account exists for that UID. Please try again."
+        self.INVALID_LOGIN="Invalid login. Please try again."
         self.NEGATIVE_PRICE="Price cannot be negative."
         self.NEGATIVE_EXP="Your experience cannot be negative."
         self.GAME_DNE="The game you entered does not exist! Please try again."
