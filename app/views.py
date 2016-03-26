@@ -324,34 +324,33 @@ def login():
             cursor.close()
             return render_template('login.html')
         else:
-        	# check if password matches
-        	cursor = g.conn.execute(queries.GET_PASSWORD, (uid))
-        	correctpassword = cursor.fetchone()
-        	cursor.close()
-        	if (check_password_hash(correctpassword, password)):
-	            cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
-	            name = cursor.fetchone()
+            # check if password matches
+            cursor = g.conn.execute(queries.GET_PASSWORD, (uid))
+            correctpassword = cursor.fetchone()[0]
+            if (check_password_hash(correctpassword, password)):
+                cursor = g.conn.execute(queries.GET_USER_NAME, (uid))
+                name = str(cursor.fetchone()[0])
 
-	            # check if user is developer, gamer, or admin
-	            # have to be either of the three.
-	            cursor = g.conn.execute(queries.SELECT_GAMER, (uid))
-	            # gamer
-	            if cursor.rowcount > 0:
-	                set_session_info(uid, str(name.name), 'gamer')
-	            else:
-	                # developer
-	                cursor = g.conn.execute(queries.SELECT_DEVELOPER, (uid))
-	                if cursor.rowcount > 0:
-	                    set_session_info(uid, str(name.name), 'dev')
-	                # admin
-	                else:
-	                    set_session_info(uid, str(name.name), 'admin')
+                # check if user is developer, gamer, or admin
+                # have to be either of the three.
+                cursor = g.conn.execute(queries.SELECT_GAMER, (uid))
+                # gamer
+                if cursor.rowcount > 0:
+                    set_session_info(uid, name, 'gamer')
+                else:
+                    # developer
+                    cursor = g.conn.execute(queries.SELECT_DEVELOPER, (uid))
+                    if cursor.rowcount > 0:
+                        set_session_info(uid, name, 'dev')
+                    # admin
+                    else:
+                        set_session_info(uid, name, 'admin')
 
-	            cursor.close()
-	            return redirect(url_for('index'))
-	        else:
-	        	flash(msgs.INVALID_LOGIN)
-	        	return render_template('login.html')
+                cursor.close()
+                return redirect(url_for('index'))
+            else:
+                flash(msgs.INVALID_LOGIN)
+                return render_template('login.html')
 
 	# for a GET request, just display blank login form
     return render_template('login.html')
