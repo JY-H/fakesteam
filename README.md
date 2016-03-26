@@ -9,7 +9,7 @@
 * ~~Create empty library upon gamer registration~~
 * ~~Error handling for negative UID or years of experience.~~
 * ~~Upon login, change nav bar to correspond to user permissions.~~
-* Add password authentication (opt., not in part 1 description)
+* ~~Add password authentication (opt., not in part 1 description)~~
 
 #### Library/Submit/Evaluate
 * ~~Based on the user's permissions, set up library/submission/evaluation pages.~~
