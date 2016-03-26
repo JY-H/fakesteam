@@ -9,7 +9,7 @@
 * ~~Create empty library upon gamer registration~~
 * ~~Error handling for negative UID or years of experience.~~
 * ~~Upon login, change nav bar to correspond to user permissions.~~
-* Add password authentication (opt., not in part 1 description)
+* ~~Add password authentication (opt., not in part 1 description)~~
 
 #### Library/Submit/Evaluate
 * ~~Based on the user's permissions, set up library/submission/evaluation pages.~~
@@ -30,7 +30,7 @@
 * ~~Set up a community page where gamers, admins, developers can post reviews for a specific game.~~ 
 
 #### Misc
-* ~~Error handling. ~~
+* ~~Error handling.~~
     * ~~Should users be allowed to review games that they do not own? (Dropdown menu for game titles on the reviews page/delete existing nonvalid entries, ~~and only display review page for gamers?~~)
     * ~~check stars less than 5.~~
     * ~~parse review commentary such that new line renders.~~
