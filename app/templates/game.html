@@ -34,9 +34,9 @@
         {% endif %}
       <img src="{{game.url}}" class="banner" />
         <h3 class="game-description">{{game.title}}</h3>
-        <h6>GENRE: {{game.genre}} | GAMEPLAY: {{game.gameplay}} | PRICE: {{game.price}}</h6>
+        <h5>GENRE: {{game.genre}} | GAMEPLAY: {{game.gameplay}} | PRICE: {{game.price}}</h6>
         {% for req in sysreqs %}
-        <h6 class="game-reqs"><i>{{req.os}}</i> : {{req.graphics}} | {{req.processor}}</h6>
+        <h5 class="game-reqs"><b>{{req.os}}</b> : {{req.graphics}} | {{req.processor}}</h6>
         {% endfor %}
         <h6 class="game-overview">{{game.description}}</h6>
     </section>
