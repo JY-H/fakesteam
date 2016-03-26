@@ -3,6 +3,7 @@ from app import app
 from server import test_server, fakesteam_server
 from constants import sql_queries, messages
 import sys
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # start server
 server = fakesteam_server()
@@ -315,7 +316,7 @@ def login():
     """
     if request.method == 'POST':
         uid = request.form['uid']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
         cursor = g.conn.execute(queries.SELECT_USER, (uid))
 
         if cursor.rowcount <= 0:
@@ -377,7 +378,7 @@ def register_gamer():
         uid = request.form['uid']
         username = request.form['username']
         name = request.form['name']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
 
         # check uid valid
         if not is_valid(uid):
@@ -419,7 +420,7 @@ def register_dev():
         uid = request.form['uid']
         name = request.form['name']
         yrs_dev = request.form['exp_dev']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
 
         # check valid exp
         if int(yrs_dev) < 0:
