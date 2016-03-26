@@ -316,7 +316,7 @@ def login():
     """
     if request.method == 'POST':
         uid = request.form['uid']
-        password = (request.form['password']
+        password = (request.form['password'])
         cursor = g.conn.execute(queries.SELECT_USER, (uid))
 
         if cursor.rowcount <= 0:
