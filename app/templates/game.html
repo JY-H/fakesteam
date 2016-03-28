@@ -26,7 +26,7 @@
         {% elif game.in_library %}
         <button type="button" disabled class="submit-btn btn--right approve-color">OWNED  </button>
         {% elif permissions == 'dev' %}
-        <button type="button" disabled class="submit-btn btn--right reject-color">PURCHASE DISALLOWED FOR DEVELOPERS</button>
+        <button type="button" disabled class="submit-btn btn--right reject-color">PURCHASE UNALLOWED FOR DEVELOPERS</button>
         {% else %}
         <form method="post" action="/buy/">
             <button type="submit" name="gameid" value="{{game.gameid}}" class="submit-btn btn--right approve-color">BUY  </button>
@@ -34,9 +34,9 @@
         {% endif %}
       <img src="{{game.url}}" class="banner" />
         <h3 class="game-description">{{game.title}}</h3>
-        <h5>GENRE: {{game.genre}} | GAMEPLAY: {{game.gameplay}} | PRICE: {{game.price}}</h6>
+        <h6>GENRE: {{game.genre}} | GAMEPLAY: {{game.gameplay}} | PRICE: {{game.price}}</h6>
         {% for req in sysreqs %}
-        <h5 class="game-reqs"><b>{{req.os}}</b> : {{req.graphics}} | {{req.processor}}</h6>
+        <h6 class="game-reqs"><b>{{req.os}}</b> : {{req.graphics}} | {{req.processor}}</h6>
         {% endfor %}
         <h6 class="game-overview">{{game.description}}</h6>
     </section>
