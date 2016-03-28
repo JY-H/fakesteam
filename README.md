@@ -41,3 +41,4 @@
 * games now have url as an attribute.
 * games: title now has the UNIQUE constraint. 
 * admin teams are now divided by gameplay. 
+* users now have passwords as an attribute.
