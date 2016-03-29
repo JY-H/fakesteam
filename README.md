@@ -26,8 +26,8 @@
     * ~~Purchase should only be allowed for gamers and for games that have been approved.~~
 * ~~Approve, reject buttons that add game to the store / delete game if the user permission is admin.~~
 
-#### Community
-* ~~Set up a community page where gamers, admins, developers can post reviews for a specific game.~~ 
+#### WRITE REVIEWS 
+* ~~Set up a write reviews page where gamers can post reviews for a specific game out of the games that they own.~~ 
 
 #### Misc
 * ~~Error handling.~~
