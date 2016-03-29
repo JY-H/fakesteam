@@ -295,7 +295,7 @@ def rate():
         # add review for game
         g.conn.execute(queries.ADD_REVIEW, (uid, gameid, stars, review))
         flash(msgs.SUCCESSFUL)
-        return render_template('rate.html', name=user, permissions=permissions)
+        return redirect(url_for('rate'))
 
     # retrieve games that the user owns
     cursor = g.conn.execute(queries.GAMER_LIBRARY, (uid))
