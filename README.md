@@ -34,6 +34,8 @@
     * ~~Should users be allowed to review games that they do not own? (Dropdown menu for game titles on the reviews page/delete existing nonvalid entries, ~~and only display review page for gamers?~~)
     * ~~check stars less than 5.~~
     * ~~parse review commentary such that new line renders.~~
+    * ~~For /review, make the commentary a placeholder vs actual text.~~
+    * ~~After posting review, the dropdown for game title is empty.~~
 
 ## DB CHANGE LOG:
 * libraryid is now autoincrement
