@@ -7,7 +7,7 @@ class sql_queries:
         self.SELECT_GAME="SELECT * FROM games WHERE games.gameid =%s"
         self.SELECT_GAME_FROM_TITLE="SELECT gameid FROM games WHERE games.title=%s"
         self.SELECT_GAME_SUBMISSIONS="SELECT games.gameid, games.title, games.url, games.gameplay FROM games, submit WHERE games.gameid = submit.gameid AND games.gameid NOT IN (SELECT gameid FROM evaluate)"
-        self.SELECT_REVIEWS="SELECT * FROM review_rated WHERE review_rated.gameid=%s"
+        self.SELECT_REVIEWS="SELECT * FROM review_rated WHERE review_rated.gameid=%s ORDER BY posted_time DESC"
 
         self.GET_USER_NAME="SELECT name FROM users WHERE users.uid=%s"
         self.GET_PASSWORD="SELECT password FROM users WHERE users.uid=%s"

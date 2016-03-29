@@ -199,6 +199,7 @@ def game():
         review['name'] = name
         review['stars'] = result['stars']
         review['commentary'] = result['commentary']
+        review['timestamp'] = str(result['posted_time'])[:16]
         reviews.append(review)
 
     # display system requirements for the game
